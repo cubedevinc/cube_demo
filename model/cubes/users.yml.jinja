@@ -1,3 +1,12 @@
+{# Is the current team trusted? #}
+{% set trusted_teams = ['cx', 'exec' ] %}
+{% set is_trusted_team = COMPILE_CONTEXT.securityContext.team in trusted_teams %}
+
+{# Convenient function to mask values if the current team is not trusted #}
+{% macro masked(sql, is_visible) -%}
+{{ sql if is_visible else "\"'--- masked ---'\"" }}
+{%- endmacro %} 
+
 cubes:
   - name: users
     sql_table: ECOM.USERS
@@ -22,11 +31,11 @@ cubes:
         type: string
 
       - name: last_name
-        sql: LAST_NAME
+        sql: {{ masked('LAST_NAME', is_trusted_team) }}
         type: string
 
       - name: first_name
-        sql: FIRST_NAME
+        sql: {{ masked('FIRST_NAME', is_trusted_team) }}
         type: string
 
       - name: created_at
