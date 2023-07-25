@@ -15,6 +15,17 @@ module.exports = {
     return query
   },
 
+  checkSqlAuth: (query, username) => {
+    const securityContext = {
+      team: username
+    } 
+
+    return {
+      password: process.env.CUBEJS_SQL_PASSWORD,
+      securityContext: securityContext,
+    };
+  },
+
   semanticLayerSync: () => {
     return [{
       type: "preset",
