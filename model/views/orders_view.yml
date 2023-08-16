@@ -8,7 +8,7 @@ views:
           - created_at
 
           - completed_count
-          # - completed_percentage
+          - completed_percentage
           - count
           - total_amount
           - average_order_value
