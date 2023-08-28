@@ -24,18 +24,7 @@ module.exports = {
       password: process.env.CUBEJS_SQL_PASSWORD,
       securityContext: securityContext,
     };
-  },
-
-  semanticLayerSync: () => {
-    return [{
-      type: "preset",
-      name: "Preset Sync",
-      config: {
-        database: "Cube Cloud 201",
-        api_token: process.env.PRESET_API_TOKEN,
-        api_secret: process.env.PRESET_API_SECRET,
-        workspace_url: process.env.PRESET_WORKSPACE_URL
-      }
-    }];
   }
+
+  
 };
