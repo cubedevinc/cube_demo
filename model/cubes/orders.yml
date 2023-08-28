@@ -6,7 +6,7 @@ cubes:
     joins:
       - name: users
         sql: "{CUBE}.USER_ID = {users}.ID"
-        relationship: many_to_one
+        relationship: many_to_one 
 
     dimensions:
       - name: id
@@ -40,10 +40,10 @@ cubes:
         filters:
           - sql: "{CUBE}.STATUS = 'completed'"
 
-      - name: completed_percentage
-        type: number
-        sql: "({completed_count} / NULLIF({count}, 0)) * 100.0"
-        format: percent
+      # - name: completed_percentage
+      #   type: number
+      #   sql: "({completed_count} / NULLIF({count}, 0)) * 100.0"
+      #   format: percent
 
       - name: total_amount
         sql: '{CUBE.amount}'
