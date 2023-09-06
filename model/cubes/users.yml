@@ -21,6 +21,10 @@ cubes:
         sql: GENDER
         type: string
 
+      - name: age
+        sql: AGE
+        type: number
+
       - name: last_name
         sql: LAST_NAME
         type: string
