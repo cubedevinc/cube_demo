@@ -14,9 +14,9 @@ cubes:
         type: number
         primary_key: true
 
-      # - name: status
-      #   sql: STATUS
-      #   type: string
+      - name: status
+        sql: STATUS
+        type: string
 
       - name: created_at
         sql: CREATED_AT
