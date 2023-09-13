@@ -36,6 +36,16 @@ module.exports = {
         api_secret: "e5e5374a64e12b0f7907e417f0d93ad11e7cbe0046181ba1896671d9949c7120",
         workspace_url: "5276833d.us2a.app.preset.io"
       }
+    }, {
+      type: "tableau",
+      name: "Tableau Sync",
+      config: {
+        database: "Cube Cloud",
+        region: "10ax",
+        site: "tonycube",
+        personalAccessToken: "cube201B",
+        personalAccessTokenSecret: "oEsq9ygaS5mONoSS9S2ouw==:wxsxU7RztuU9pkREdpid0B4EdD1JSp7F"
+      }
     }];
   }
 };
