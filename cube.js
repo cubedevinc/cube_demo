@@ -29,7 +29,7 @@ module.exports = {
   semanticLayerSync: () => {
     return [{
       type: "preset",
-      name: "Preset Sync",
+      name: "828 Sync",
       config: {
         database: "828 Take 2",
         api_token: "448d9518-3d7a-41e3-9bda-e626b1646c32",
@@ -43,8 +43,8 @@ module.exports = {
         database: "Cube Cloud",
         region: "10ax",
         site: "tonycube",
-        personalAccessToken: "cube201B",
-        personalAccessTokenSecret: "oEsq9ygaS5mONoSS9S2ouw==:wxsxU7RztuU9pkREdpid0B4EdD1JSp7F"
+        personalAccessToken: "cube demo",
+        personalAccessTokenSecret: process.env.CUBEJS_TABLEAU_PAT_SECRET
       }
     }];
   }
