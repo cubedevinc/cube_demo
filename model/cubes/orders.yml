@@ -8,6 +8,18 @@ cubes:
         sql: "{CUBE}.USER_ID = {users}.ID"
         relationship: many_to_one 
 
+    pre_aggregations:
+      - name: monthlyOrdersByCity
+        measures:
+          - orders.total_amount
+          - orders.count
+        dimensions:
+          - orders_view.users_city
+          - orders.status
+          - users.city
+        timeDimension: orders.created_at
+        granularity: month
+
     dimensions:
       - name: id
         sql: ID
