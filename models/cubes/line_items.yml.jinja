@@ -1,3 +1,5 @@
+{% set scheduled_refresh = get_scheduled_refresh() %}
+
 cubes:
   - name: line_items
     sql_table: ECOM.LINE_ITEMS
@@ -32,7 +34,7 @@ cubes:
         
     pre_aggregations:
       - name: line_items_summary
-        scheduled_refresh: false
+        scheduled_refresh: {{ scheduled_refresh }}
         measures:
           - count
           - total_amount

@@ -1,10 +1,16 @@
-from cube import config
+from cube import config, file_repository
 import json
 import os
 
 config.base_path = '/cube-api'
 
 config.schema_path = 'models'
+
+config.telemetry = False
+
+# @config('repository_factory')
+# def repository_factory(ctx: dict) -> list[dict]:
+#   return file_repository('model')
 
 @config('query_rewrite')
 def query_rewrite(query: dict, ctx: dict) -> dict:
@@ -18,7 +24,7 @@ def query_rewrite(query: dict, ctx: dict) -> dict:
 
 @config('logger')
 def logger(message: str, params: dict) -> None:
-  print(f'CUSTOM LOGGER <> {message}: {params}')
+  print(f'MY CUSTOM LOGGER --> {message}: {params}')
 
 @config('context_to_app_id')
 def context_mapping(ctx: dict):
@@ -52,6 +58,11 @@ def check_sql_auth(query: dict, username: str) -> dict:
 #       'password': '12345',
 #       'database': 'ecom'
 #     }
+
+
+# contextToOrchestratorId
+# checkAuth
+# canSwitchUser
 
 @config('semantic_layer_sync')
 def sls(ctx: dict) -> list:

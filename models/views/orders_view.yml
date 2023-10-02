@@ -19,6 +19,7 @@ views:
           - city
           - age
           - gender
+          - last_name
 
       - join_path: orders.line_items.products
         prefix: true
