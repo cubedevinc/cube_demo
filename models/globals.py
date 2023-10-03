@@ -3,14 +3,14 @@ import os
  
 template = TemplateContext()
 
-@template.function
+@template.function('get_scheduled_refresh')
 def get_scheduled_refresh():
   name = 'CUSTOM_ENV_PREAGGS_ENABLE'
   if name in os.environ:
     return str(str(os.environ[name]).lower() == 'true').lower()
   return 'false'
 
-@template.function
+@template.function('masked')
 def masked(sql, security_context):
   trusted_teams = ['cx', 'exec' ]
   is_trusted_team = security_context.setdefault('team') in trusted_teams

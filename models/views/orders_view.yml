@@ -6,7 +6,6 @@ views:
         includes:
           - status
           - created_at
-          - id
 
           - completed_count
           - count
@@ -16,6 +15,7 @@ views:
       - join_path: orders.users
         prefix: true
         includes: 
+          - id
           - city
           - age
           - gender
