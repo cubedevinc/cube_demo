@@ -17,4 +17,4 @@ def masked(sql, security_context):
   if is_trusted_team:
     return sql
   else:
-    return "\"'--- masked ---'\""
+    return "\'--- masked ---\'"
