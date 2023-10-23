@@ -78,14 +78,24 @@ def sls(ctx: dict) -> list:
         'workspace_url': os.environ['PRESET_WORKSPACE_URL']
       }
     }, {
+    #   'type': "tableau",
+    #   'name': "Tableau Sync",
+    #   'config': {
+    #     'database': "Cube Cloud: cube_demo",
+    #     'region': "10ax",
+    #     'site': "cubedevartyom",
+    #     'personalAccessToken': "demo-cube-cloud",
+    #     'personalAccessTokenSecret': os.environ['TABLEAU_PAT_SECRET']
+    #   }
+    # }, {
       'type': "tableau",
       'name': "Tableau Sync",
       'config': {
         'database': "Cube Cloud: cube_demo",
         'region': "10ax",
-        'site': "cubedevartyom",
-        'personalAccessToken': "demo-cube-cloud",
-        'personalAccessTokenSecret': os.environ['TABLEAU_PAT_SECRET']
+        'site': "tonycube",
+        'personalAccessToken': "tonycube",
+        'personalAccessTokenSecret': os.environ['TABLEAU_PAT_SECRET_TONY']
       }
     }, {
       'type': "metabase",
