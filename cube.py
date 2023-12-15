@@ -27,7 +27,7 @@ def context_mapping(ctx: dict):
   return ctx['securityContext'].setdefault('team')
 
 @config('check_sql_auth')
-def check_sql_auth(query: dict, username: str) -> dict:
+def check_sql_auth(query: dict, username: str, password: str) -> dict:
   security_context = {
     'team': username
   }
