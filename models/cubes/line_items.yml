@@ -9,11 +9,9 @@ cubes:
       - name: products
         sql: "{CUBE}.PRODUCT_ID = {products}.ID"
         relationship: many_to_one
-
       - name: orders
-        sql: "{CUBE}.ORDER_ID = {orders}.ID"
+        sql: '{CUBE}.order_id = {orders}.id'
         relationship: many_to_one
-
     dimensions:
       - name: id
         sql: ID
@@ -31,7 +29,9 @@ cubes:
       - name: total_amount
         sql: PRICE
         type: sum
-        
+      - name: count_dist_products
+        type: count_distinct
+        sql: '{CUBE}.product_id'
     pre_aggregations:
       - name: line_items_summary
         scheduled_refresh: {{ scheduled_refresh }}
@@ -42,3 +42,22 @@ cubes:
         granularity: day
         dimensions:
           - products.product_category
+      - name: main
+        measures:
+          - line_items.total_amount
+        dimensions:
+          - orders.status
+        timeDimension: line_items.created_date
+        granularity: quarter
+      # - name: distprods_city
+      #   measures: 
+      #     - count_dist_products
+      #   dimensions:
+      #     - users.city
+      - name: distprods_city_year
+        measures: 
+          - count_dist_products
+        dimensions:
+          - users.city
+        timeDimension: created_date
+        granularity: year
