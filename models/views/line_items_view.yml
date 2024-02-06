@@ -6,6 +6,7 @@ views:
         includes:
           - created_at
           - count
+          - total_amount
 
       - join_path: line_items.products
         includes:

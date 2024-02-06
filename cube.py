@@ -108,7 +108,14 @@ def sls(ctx: dict) -> list:
         'password': os.environ['METABASE_SLS_PASSWORD'],
         'url': os.environ['METABASE_SLS_URL']
       }
-    }];
+    }, 
+{
+  "type": "powerbi",
+  "name": "Powerbi Sync",
+  "config": {
+    "database": "Cube Cloud: cube_demo"
+  }
+}];
 
 @config('repository_factory')
 def repository_factory(ctx: dict) -> list[dict]:
