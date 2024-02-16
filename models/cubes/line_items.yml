@@ -40,5 +40,6 @@ cubes:
           - total_amount
         time_dimension: created_at
         granularity: day
+        allow_non_strict_date_range_match: true
         dimensions:
           - products.product_category
