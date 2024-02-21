@@ -13,7 +13,7 @@ views:
           - average_order_value
 
       - join_path: orders.users
-        split: true
+        prefix: true
         includes: 
           - id
           - city
@@ -23,7 +23,7 @@ views:
           - count
 
       - join_path: orders.line_items.products
-        split: true
+        prefix: true
         includes: 
           - product_category
           - count
