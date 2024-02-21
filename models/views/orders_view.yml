@@ -6,6 +6,7 @@ views:
         includes:
           - status
           - created_at
+          - id
 
           - completed_count
           - count
