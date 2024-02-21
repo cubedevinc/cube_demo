@@ -115,6 +115,16 @@ def sls(ctx: dict) -> list:
   "config": {
     "database": "Cube Cloud: cube_demo"
   }
+}, 
+{
+  "type": "superset",
+  "name": "Apache Superset Sync",
+  "config": {
+    "database": "Cube Cloud: cube_demo",
+    "user": "admin",
+    "password": "MHV7gmd8kmr3dna_xuf",
+    "url": "cube-demo-superset.dev"
+  }
 }];
 
 @config('repository_factory')
