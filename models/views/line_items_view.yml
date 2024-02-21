@@ -1,5 +1,6 @@
 views:
   - name: line_items_view
+    description: "Data about individual line items (products) sold"
 
     cubes:
       - join_path: line_items
