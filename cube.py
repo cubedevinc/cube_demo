@@ -125,6 +125,17 @@ def sls(ctx: dict) -> list:
     "password": "MHV7gmd8kmr3dna_xuf",
     "url": "cube-demo-superset.dev"
   }
+}, 
+{
+  "type": "tableau-cloud",
+  "name": "Tableau Cloud Sync",
+  "config": {
+    "database": "Cube Cloud: cube_demo",
+    "region": "us-west-2b",
+    "site": "cubedev",
+    "personalAccessToken": os.environ['TABLEAU_PAT_NAME_CUBEDEV'],
+    "personalAccessTokenSecret": os.environ['TABLEAU_PAT_SECRET_CUBEDEV']
+  }
 }];
 
 @config('repository_factory')
