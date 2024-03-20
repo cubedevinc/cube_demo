@@ -1,4 +1,4 @@
-{% set scheduled_refresh = get_scheduled_refresh() %}
+{% set scheduled_refresh = get_scheduled_refresh()  %}
 
 cubes:
   - name: line_items
