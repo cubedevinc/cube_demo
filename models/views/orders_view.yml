@@ -1,6 +1,6 @@
 views:
   - name: orders_view
-    description: "Data about orders, amount, count and breakdown by status, users and products dimensions."
+    description: "Data about orders, amount, count and breakdown by status, users and products dimension."
 
     cubes:
       - join_path: orders
