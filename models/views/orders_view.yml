@@ -8,7 +8,6 @@ views:
           - status
           - created_at
           - id
-
           - completed_count
           - count
           - total_amount
