@@ -1,6 +1,12 @@
 views:
   - name: orders_view
     description: "Data about orders, amount, count and breakdown by status, users and products dimension."
+    meta:
+      hierarchies:
+        - name: "Demo Hierarchy"
+          levels:
+            - users_city
+            - status
 
     cubes:
       - join_path: orders
