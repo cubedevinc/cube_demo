@@ -24,12 +24,10 @@ cubes:
       - name: last_name
         sql: LAST_NAME
         type: string
-        public: false
 
       - name: first_name
         sql: FIRST_NAME
         type: string
-        public: false
 
       - name: name
         sql: "{first_name} || {last_name}"
@@ -46,4 +44,3 @@ cubes:
     measures:
       - name: count
         type: count
-

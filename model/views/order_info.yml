@@ -20,7 +20,6 @@ views:
           - city
           - age
           - gender
-          - name
           - count
 
       - join_path: orders.line_items.products
