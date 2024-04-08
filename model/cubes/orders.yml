@@ -8,11 +8,20 @@ cubes:
         sql: "{CUBE}.USER_ID = {users}.ID"
         relationship: many_to_one
 
+      - name: line_items
+        sql: "{CUBE}.ID = {line_items}.ORDER_ID"
+        relationship: one_to_many
+
     dimensions:
       - name: id
         sql: ID
         type: number
         primary_key: true
+
+      - name: user_id
+        sql: USER_ID
+        type: number
+        public: false
 
       - name: status
         sql: STATUS
@@ -25,11 +34,10 @@ cubes:
       - name: completed_at
         sql: COMPLETED_AT
         type: time
-
-      - name: amount
-        sql: '{line_items.total_amount}'
+      
+      - name: days_to_complete
+        sql: "{completed_at}::DATE - {created_at}::DATE"
         type: number
-        sub_query: true
 
     measures:
       - name: count
@@ -38,17 +46,29 @@ cubes:
       - name: completed_count
         type: count
         filters:
-          - sql: "{CUBE}.STATUS = 'completed'"
+        - sql: "{CUBE}.STATUS = 'completed'"
 
       - name: completed_percentage
         type: number
         sql: "({completed_count} / NULLIF({count}, 0)) * 100.0"
         format: percent
 
-      - name: total_amount
-        sql: '{CUBE.amount}'
-        type: sum
-
-      - name: average_order_value
-        sql: '{CUBE.amount}'
+      - name: avg_days_to_complete
+        sql: "{days_to_complete}"
         type: avg
+
+    pre_aggregations:
+      - name: orders_rollup
+        dimensions:
+          - user_id
+          - status
+        measures:
+          - count
+          - completed_count
+          - completed_percentage
+        time_dimension: created_at
+        granularity: day
+        refresh_key:
+          every: 12 hours
+          sql: SELECT MAX(created_at) FROM orders
+

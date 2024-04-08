@@ -1,0 +1,31 @@
+views:
+  - name: order_info
+
+    cubes:
+      - join_path: orders
+        includes:
+          - status
+          - created_at
+          - completed_at
+          - days_to_complete
+
+          - count
+          - completed_count
+          - completed_percentage
+          - avg_days_to_complete
+
+      - join_path: orders.users
+        prefix: true
+        includes: 
+          - city
+          - age
+          - gender
+          - name
+          - count
+
+      - join_path: orders.line_items.products
+        prefix: true
+        includes: 
+          - category
+          - count
+

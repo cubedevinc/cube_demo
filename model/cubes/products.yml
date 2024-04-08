@@ -9,7 +9,7 @@ cubes:
         type: number
         primary_key: true
 
-      - name: product_category
+      - name: category
         sql: PRODUCT_CATEGORY
         type: string
 
@@ -24,3 +24,4 @@ cubes:
     measures:
       - name: count
         type: count
+
