@@ -64,3 +64,17 @@ import os
 # @config('context_to_api_scopes')
 # def context_to_api_scopes(context: dict, default_scopes: list[str]) -> list[str]:
 #   return ['meta', 'data', 'graphql']
+
+@config('semantic_layer_sync')
+def sls(ctx: dict) -> list:
+    return [{
+  "type": "tableau-cloud",
+  "name": "Tableau Cloud Sync",
+  "config": {
+    "database": "Cube Cloud: Treadwell Cube Demo",
+    "region": "us-west-2b",
+    "site": "cubedev",
+    "personalAccessToken": "treadwell_cube_demo",
+    "personalAccessTokenSecret": "yWgQMO9hRe23DPJM4IDveA==:tBVfh5a9B8ONnXmUE7U3MzWYdF0oYsaV"
+  }
+}]
