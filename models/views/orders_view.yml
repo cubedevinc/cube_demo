@@ -10,10 +10,10 @@ views:
 
         - name: "Created At Hierarchy"
           levels:
-            - created_at_year
-            - created_at_quarter
-            - created_at_month
-            - created_at_day
+            - created_at_Year
+            - created_at_Quarter
+            - created_at_Month
+            - created_at_Day
 
     cubes:
       - join_path: orders
@@ -21,10 +21,10 @@ views:
           - status
           - created_at
           - id
-          - created_at_year
-          - created_at_quarter
-          - created_at_month
-          - created_at_day
+          - created_at_Year
+          - created_at_Quarter
+          - created_at_Month
+          - created_at_Day
 
           - completed_count
           - count
