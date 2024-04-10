@@ -5,7 +5,7 @@ cubes:
 
     dimensions:
       - name: id
-        sql: ID
+        sql: "{CUBE}.ID"
         type: number
         primary_key: true
 
