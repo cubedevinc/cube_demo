@@ -21,6 +21,7 @@ cubes:
       - name: status
         sql: STATUS
         type: string
+        description: The status of the order (completed etc)
 
       - name: created_at
         sql: "{CUBE}.CREATED_AT"
@@ -68,6 +69,7 @@ cubes:
       - name: total_amount
         sql: '{CUBE.amount}'
         type: sum
+        description: "The total amount sold, i.e. revenue"
 
       - name: average_order_value
         sql: '{CUBE.amount}'

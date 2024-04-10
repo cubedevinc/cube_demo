@@ -23,6 +23,7 @@ cubes:
       - name: created_at
         sql: CREATED_AT
         type: time
+        description: "when the line item was created"
 
     measures:
       - name: count
@@ -31,6 +32,7 @@ cubes:
       - name: total_amount
         sql: PRICE
         type: sum
+        description: "the total amount sold"
         
     pre_aggregations:
       - name: line_items_summary
