@@ -8,12 +8,23 @@ views:
             - users_city
             - status
 
+        - name: "Created At Hierarchy"
+          levels:
+            - created_at_year
+            - created_at_quarter
+            - created_at_month
+            - created_at_day
+
     cubes:
       - join_path: orders
         includes:
           - status
           - created_at
           - id
+          - created_at_year
+          - created_at_quarter
+          - created_at_month
+          - created_at_day
 
           - completed_count
           - count
