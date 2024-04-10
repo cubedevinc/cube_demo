@@ -23,7 +23,7 @@ cubes:
         type: string
 
       - name: created_at
-        sql: CREATED_AT
+        sql: "{CUBE}.CREATED_AT"
         type: time
 
       - name: completed_at
