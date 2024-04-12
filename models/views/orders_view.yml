@@ -30,6 +30,7 @@ views:
           - count
           - total_amount
           - average_order_value
+          - completed_percentage
 
       - join_path: orders.users
         prefix: true
