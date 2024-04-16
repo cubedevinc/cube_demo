@@ -12,6 +12,7 @@ cubes:
       - name: category
         sql: PRODUCT_CATEGORY
         type: string
+        description: a description of this field
 
       - name: name
         sql: NAME
