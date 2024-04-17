@@ -75,7 +75,7 @@ def sls(ctx: dict) -> list:
     "region": "us-west-2b",
     "site": "cubedev",
     "personalAccessToken": "treadwell_cube_demo",
-    "personalAccessTokenSecret": os.environ["CUBEJS_PAT_SECRET"]
+    "personalAccessTokenSecret": os.environ["CUBEJS_TABLEAU_PAT_SECRET"]
   }
 }, 
 {
@@ -83,8 +83,8 @@ def sls(ctx: dict) -> list:
   "name": "Preset Sync",
   "config": {
     "database": "Cube Cloud: Treadwell Cube Demo",
-    "api_token": "5c5e942e-e652-48fd-88e8-b54e8b4d60ea",
-    "api_secret": "b6b20f32cd58b9862b064528398f838d68ad4d4300120550335a7b929f0f79f3",
+    "api_token": "8fc4f74e-7940-46d1-9ae6-77343f482f70",
+    "api_secret": os.environ["CUBEJS_PRESET_PAT_SECRET"],
     "workspace_url": "aea9b11a.us2a.app.preset.io"
   }
 }]
