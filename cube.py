@@ -77,4 +77,14 @@ def sls(ctx: dict) -> list:
     "personalAccessToken": "treadwell_cube_demo",
     "personalAccessTokenSecret": os.environ["CUBEJS_PAT_SECRET"]
   }
+}, 
+{
+  "type": "preset",
+  "name": "Preset Sync",
+  "config": {
+    "database": "Cube Cloud: Treadwell Cube Demo",
+    "api_token": "5c5e942e-e652-48fd-88e8-b54e8b4d60ea",
+    "api_secret": "b6b20f32cd58b9862b064528398f838d68ad4d4300120550335a7b929f0f79f3",
+    "workspace_url": "aea9b11a.us2a.app.preset.io"
+  }
 }]
