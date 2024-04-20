@@ -1,5 +1,5 @@
 views:
-  - name: line_items_view
+  - name: mt_line_items_view
     description: "Data about individual line items (products) sold"
 
     cubes:

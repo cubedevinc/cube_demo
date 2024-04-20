@@ -2,7 +2,8 @@
 
 cubes:
   - name: line_items
-    sql_table: ECOM.LINE_ITEMS
+    sql_table: |
+      {COMPILE_CONTEXT.securityContext.schema}.LINE_ITEMS
     public: false
 
     joins:

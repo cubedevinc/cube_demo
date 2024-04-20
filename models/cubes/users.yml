@@ -1,6 +1,7 @@
 cubes:
   - name: users
-    sql_table: ECOM.USERS
+    sql_table: |
+      {COMPILE_CONTEXT.securityContext.schema}.USERS
     public: false
 
     dimensions:

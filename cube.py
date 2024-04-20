@@ -24,15 +24,33 @@ config.telemetry = False
 
 # Dynamic Data Model
 
+def get_schema_for_user(user):
+    # Here we would reach out to a service or query a table with the user->schema mappings    
+    schema = ''
+    
+    if user == 'auth0|66230a8321e009a9c2d58b02':
+        schema = 'MULTITENANCY_CUBE_DEMO.NYC_ECOM'
+
+    elif user == 'auth0|66230ac3b71a509d7fe0f59c':
+        schema = 'MULTITENANCY_CUBE_DEMO.AUSTIN_ECOM'
+
+    elif user == 'google-oauth2|101269788254543291787':
+        schema = 'CUBE_DEMO.ECOM'
+
+    return schema
+
 @config('context_to_app_id')
 def context_mapping(ctx: dict):
-  return ctx['securityContext'].setdefault('team')
+  return ctx['securityContext'].setdefault('schema')
 
 @config('check_sql_auth')
 def check_sql_auth(query: dict, username: str, password: str) -> dict:
+  print(username)
+  print(get_schema_for_user(username))
   security_context = {
-    'team': username
+    'schema': get_schema_for_user(username)
   }
+  
 
   return {
     'password': os.environ['CUBEJS_SQL_PASSWORD'],
@@ -55,7 +73,12 @@ def check_sql_auth(query: dict, username: str, password: str) -> dict:
 
 
 # contextToOrchestratorId
-# canSwitchUser
+# canSwitchUser 
+@config('can_switch_sql_user')
+def can_switch_sql_user(current_user: str, new_user: str) -> dict:
+  if current_user == 'cube':
+    return True 
+  return False
 
 
 # Custom check auth. TODO: not sure it is working
@@ -68,75 +91,7 @@ def check_sql_auth(query: dict, username: str, password: str) -> dict:
 
 #   raise Exception('Access denied')
 
-@config('semantic_layer_sync')
-def sls(ctx: dict) -> list:
-   return [{
-      'type': 'preset',
-      'name': 'Preset Sync',
-      'config': {
-        'database': 'Cube Cloud: cube_demo',
-        'api_token': os.environ['PRESET_API_TOKEN'],
-        'api_secret': os.environ['PRESET_API_SECRET'],
-        'workspace_url': os.environ['PRESET_WORKSPACE_URL']
-      }
-    }, {
-      'type': "tableau",
-      'name': "Tableau Sync Demo",
-      'config': {
-        'database': "Cube Cloud: cube_demo",
-        'region': "us-west-2b",
-        'site': "cubedevdemo",
-        'personalAccessToken': "cube_demo",
-        'personalAccessTokenSecret': os.environ['TABLEAU_PAT_SECRET']
-      }
-    }, {
-      'type': "tableau",
-      'name': "Tableau Sync",
-      'config': {
-        'database': "Cube Cloud: cube_demo",
-        'region': "10ax",
-        'site': "tonycube",
-        'personalAccessToken': "tonycube",
-        'personalAccessTokenSecret': os.environ['TABLEAU_PAT_SECRET_TONY']
-      }
-    }, {
-      'type': "metabase",
-      'name': "Metabase Sync",
-      'config': {
-        'database': "Cube Cloud: cube_demo",
-        'user': os.environ['METABASE_SLS_USER'],
-        'password': os.environ['METABASE_SLS_PASSWORD'],
-        'url': os.environ['METABASE_SLS_URL']
-      }
-    }, 
-{
-  "type": "powerbi",
-  "name": "Powerbi Sync",
-  "config": {
-    "database": "Cube Cloud: cube_demo"
-  }
-}, 
-{
-  "type": "superset",
-  "name": "Apache Superset Sync",
-  "config": {
-    "database": "Cube Cloud: cube_demo",
-    "user": "admin",
-    "password": "MHV7gmd8kmr3dna_xuf",
-    "url": "cube-demo-superset.dev"
-  }
-}, 
-{
-  "type": "tableau-cloud",
-  "name": "Tableau Cloud Sync",
-  "config": {
-    "database": "Cube Cloud: cube_demo",
-    "region": "us-west-2b",
-    "site": "cubedev",
-    "personalAccessToken": os.environ['TABLEAU_PAT_NAME_CUBEDEV'],
-    "personalAccessTokenSecret": os.environ['TABLEAU_PAT_SECRET_CUBEDEV']
-  }
-}];
+
 
 @config('repository_factory')
 def repository_factory(ctx: dict) -> list[dict]:
@@ -149,3 +104,20 @@ def logger(message: str, params: dict) -> None:
 @config('context_to_api_scopes')
 def context_to_api_scopes(context: dict, default_scopes: list[str]) -> list[str]:
   return ['meta', 'data', 'graphql']
+
+
+@config('semantic_layer_sync')
+def sls(ctx: dict) -> list:
+    return [
+      {
+  "name": "Preset Sync",
+  "type": "preset",
+  "config": {
+    "database": "Cube Cloud: Multitenancy Demo",
+    "api_token": os.environ['CUBEJS_PRESET_TONY_MT_TOKEN'],
+    "api_secret": os.environ['CUBEJS_PRESET_TONY_MT_SECRET'],
+    "workspace_url": "5276833d.us2a.app.preset.io"
+  }
+}
+    ]
+              

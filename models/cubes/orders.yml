@@ -1,6 +1,7 @@
 cubes:
   - name: orders
-    sql_table: ECOM.ORDERS
+    sql_table: |
+      {COMPILE_CONTEXT.securityContext.schema}.ORDERS
     public: false
 
     joins:
