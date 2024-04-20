@@ -28,13 +28,16 @@ def get_schema_for_user(user):
     # Here we would reach out to a service or query a table with the user->schema mappings    
     schema = ''
     
-    if user == 'auth0|66230a8321e009a9c2d58b02':
+    if user == 'auth0|66230a8321e009a9c2d58b02': #tony+demo1@cube.dev
         schema = 'MULTITENANCY_CUBE_DEMO.NYC_ECOM'
 
-    elif user == 'auth0|66230ac3b71a509d7fe0f59c':
+    elif user == 'auth0|66230ac3b71a509d7fe0f59c': #tony+demo2@cube.dev
         schema = 'MULTITENANCY_CUBE_DEMO.AUSTIN_ECOM'
 
-    elif user == 'google-oauth2|101269788254543291787':
+    elif user == 'google-oauth2|101269788254543291787': #tony@cube.dev
+        schema = 'CUBE_DEMO.ECOM'
+
+    elif user == 'cube':
         schema = 'CUBE_DEMO.ECOM'
 
     return schema
