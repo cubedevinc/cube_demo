@@ -36,6 +36,9 @@ def get_schema_for_user(user):
 
     elif user == 'google-oauth2|101269788254543291787': #tony@cube.dev
         schema = 'CUBE_DEMO.ECOM'
+    
+    else:
+        schema = 'CUBE_DEMO.ECOM'
 
     # elif user == 'cube':
     #     schema = 'CUBE_DEMO.ECOM'
