@@ -39,6 +39,11 @@ cubes:
         sql: "{completed_at}::DATE - {created_at}::DATE"
         type: number
 
+      - name: amount
+        sql: '{line_items.total_amount}'
+        type: number
+        sub_query: true
+
     measures:
       - name: count
         type: count
@@ -57,6 +62,12 @@ cubes:
         sql: "{days_to_complete}"
         type: avg
 
+      - name: total_amount
+        sql: '{CUBE.amount}'
+        type: sum
+        format: currency
+        description: "The total amount of orders sold, used to calculate revenue."
+
     pre_aggregations:
       - name: orders_rollup
         dimensions:
@@ -64,6 +75,7 @@ cubes:
         measures:
           - count
           - completed_count
+          - total_amount
         time_dimension: created_at
         granularity: day
         refresh_key:

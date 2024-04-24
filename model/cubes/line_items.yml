@@ -34,3 +34,9 @@ cubes:
       - name: count
         type: count
 
+      - name: total_amount
+        sql: PRICE
+        type: sum
+        format: currency
+        description: "The total amount sold"
+
