@@ -60,15 +60,11 @@ cubes:
     pre_aggregations:
       - name: orders_rollup
         dimensions:
-          - user_id
           - status
         measures:
           - count
           - completed_count
-          - completed_percentage
         time_dimension: created_at
         granularity: day
         refresh_key:
           every: 12 hours
-          sql: SELECT MAX(created_at) FROM orders
-
