@@ -1,5 +1,11 @@
 views:
   - name: order_info
+    meta:
+      hierarchies:
+        - name: "Products"
+          levels:
+            - products_category
+            - products_name
 
     cubes:
       - join_path: orders
@@ -26,5 +32,5 @@ views:
         prefix: true
         includes: 
           - category
-          - count
+          - name
 
