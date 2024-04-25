@@ -8,7 +8,6 @@ views:
           - created_at
           - completed_at
           - days_to_complete
-
           - count
           - completed_count
           - completed_percentage
@@ -17,6 +16,7 @@ views:
       - join_path: orders.users
         prefix: true
         includes: 
+          - id
           - city
           - age
           - gender
