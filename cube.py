@@ -2,7 +2,6 @@ from cube import config, file_repository
 import json
 import os
 
-# A change coming from github
 # config.base_path = '/cube-api'
 
 # config.schema_path = 'models'
@@ -10,8 +9,6 @@ import os
 # config.telemetry = False
 
 # Access Control
-
-# remote2
 
 # @config('query_rewrite')
 # def query_rewrite(query: dict, ctx: dict) -> dict:
@@ -24,8 +21,6 @@ import os
 #   return query
 
 # Dynamic Data Model
-
-# and another change
 
 # @config('context_to_app_id')
 # def context_mapping(ctx: dict):
