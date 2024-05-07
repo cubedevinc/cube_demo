@@ -1,66 +1,94 @@
-from cube import config, file_repository
+# Cube configuration options: https://cube.dev/docs/config
+
+from cube import config
+
+import requests
 import json
 import os
 
-# config.base_path = '/cube-api'
 
-# config.schema_path = 'models'
+def branchregion_policy(groups):
+  if '15805cbe-a32b-4ce7-ac63-d3a9b7238300' in groups:
+    return {
+      'member': 'order_info.users_city',
+      'operator': 'equals',
+      'values': ['Los Angeles'],  
+    }
+  elif 'c7c68de9-d937-4a79-92c0-daa83966fc47' in groups:
+    return None
+  else:
+    return {
+      'member': 'order_info.users_city',
+      'operator': 'equals',
+      'values': [''],  
+    }
 
-# config.telemetry = False
+def get_groups(user_id: str, access_token: str):
+    url = f"https://graph.microsoft.com/v1.0/users/{user_id}/memberOf/microsoft.graph.group"
 
-# Access Control
+    headers = {
+        'Authorization': f"Bearer {access_token}"
+    }
 
-# @config('query_rewrite')
-# def query_rewrite(query: dict, ctx: dict) -> dict:
-#   if 'user_id' in ctx['securityContext']:
-#     query['filters'].append({
-#       'member': 'orders_view.users_id',
-#       'operator': 'equals',
-#       'values': [ctx['securityContext']['user_id']]
-#     })
-#   return query
+    response = requests.get(url, headers=headers)
+    print(response.text)
 
-# Dynamic Data Model
+    data = json.loads(response.text)
+    return list(map(lambda x: x['id'], data['value']))
 
-# @config('context_to_app_id')
-# def context_mapping(ctx: dict):
-#   return ctx['securityContext'].setdefault('team')
+def get_user_by_id(user_id: str, access_token: str):
+    url = f"https://graph.microsoft.com/v1.0/users/{user_id}"
 
-# @config('check_sql_auth')
-# def check_sql_auth(query: dict, username: str, password: str) -> dict:
-#   security_context = {
-#     'team': username
-#   }
-#   return {
-#     'password': os.environ['CUBEJS_SQL_PASSWORD'],
-#     'securityContext': security_context
-#   }
+    headers = {
+        'Authorization': f"Bearer {access_token}"
+    }
 
-# @config('driver_factory')
-# def driver_factory(ctx: dict) -> None:
-#   context = ctx['securityContext']
-#   data_source = ctx['dataSource']
+    response = requests.get(url, headers=headers)
+
+    return json.loads(response.text)
+
+def get_access_token():
+    url = 'https://login.microsoftonline.com/57149b7d-be9e-4534-bd60-cc835252a462/oauth2/v2.0/token'
+
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+
+    data = {
+        'client_id': os.getenv('ENTRA_ID_CLIENT_ID'),
+        'scope': os.getenv('ENTRA_ID_SCOPE'),
+        'client_secret': os.getenv('ENTRA_ID_CLIENT_SECRET'),
+        'grant_type': 'client_credentials'
+    }
+
+    response = requests.post(url, headers=headers, data=data)
+    access_token = json.loads(response.text)['access_token']
+    return access_token
+
+@config('context_to_app_id')
+def context_mapping(ctx: dict):
+  return ctx['securityContext'].setdefault('team')
+
  
-#   if data_source == 'postgres':
-#     return {
-#       'type': 'postgres',
-#       'host': 'demo-db-examples.cube.dev',
-#       'user': 'cube',
-#       'password': '12345',
-#       'database': 'ecom'
-#     }
+@config('query_rewrite')
+def query_rewrite(query: dict, ctx: dict) -> dict:
+  if 'admin' in ctx["securityContext"] and ctx["securityContext"]['admin']:
+    return query
+  access_token = get_access_token()
+  groups = get_groups(ctx["securityContext"]["user_id"], access_token)
+  filters = branchregion_policy(groups)
+  if filters:
+    query['filters'].append(filters)
+  print(query)
+  return query
 
+@config('check_sql_auth')
+def check_sql_auth(query: dict, username: str, password: str) -> dict:
+  security_context = {
+    'user_id': username
+  }
 
-# Other
-
-# @config('repository_factory')
-# def repository_factory(ctx: dict) -> list[dict]:
-#   return file_repository('models')
-
-# @config('logger')
-# def logger(message: str, params: dict) -> None:
-#   print(f'MY CUSTOM LOGGER --> {message}: {params}')
-
-# @config('context_to_api_scopes')
-# def context_to_api_scopes(context: dict, default_scopes: list[str]) -> list[str]:
-#   return ['meta', 'data', 'graphql']
+  return {
+    'password': password,
+    'securityContext': security_context
+  }
