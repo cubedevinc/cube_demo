@@ -84,6 +84,8 @@ def query_rewrite(query: dict, ctx: dict) -> dict:
 
 @config('check_sql_auth')
 def check_sql_auth(query: dict, username: str, password: str) -> dict:
+  print("Username check...")
+  print(username)
   security_context = {
     'user_id': username
   }
