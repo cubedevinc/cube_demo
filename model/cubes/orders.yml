@@ -36,10 +36,10 @@ cubes:
         - sql: {{ "{CUBE}.STATUS = '" + s + "'" | safe}}
       {%- endfor %}
 
-      - name: completed_percentage
-        type: number
-        sql: "({completed_count} / NULLIF({count}, 0)) * 100.0"
-        format: percent
+      # - name: completed_percentage
+      #   type: number
+      #   sql: "({completed_count} / NULLIF({count}, 0)) * 100.0"
+      #   format: percent
 
       - name: avg_days_to_complete
         sql: "{days_to_complete}"

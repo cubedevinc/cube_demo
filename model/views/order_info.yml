@@ -10,7 +10,7 @@ views:
           - days_to_complete
           - count
           - completed_count
-          - completed_percentage
+          # - completed_percentage
           - avg_days_to_complete
 
       - join_path: orders.users
