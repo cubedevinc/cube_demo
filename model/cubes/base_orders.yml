@@ -1,0 +1,40 @@
+cubes:
+  - name: base_orders
+    public: false
+    sql_table: ECOM.ORDERS
+
+    joins:
+      - name: users
+        sql: "{CUBE}.USER_ID = {users}.ID"
+        relationship: many_to_one
+
+      - name: line_items
+        sql: "{CUBE}.ID = {line_items}.ORDER_ID"
+        relationship: one_to_many
+
+    dimensions:
+      - name: id
+        sql: ID
+        type: number
+        primary_key: true
+
+      - name: user_id
+        sql: USER_ID
+        type: number
+        public: false
+
+      - name: status
+        sql: STATUS
+        type: string
+
+      - name: created_at
+        sql: CREATED_AT
+        type: time
+
+      - name: completed_at
+        sql: COMPLETED_AT
+        type: time
+
+    measures:
+      - name: count
+        type: count

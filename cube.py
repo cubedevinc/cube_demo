@@ -87,4 +87,18 @@ def sls(ctx: dict) -> list:
     "api_secret": os.environ["CUBEJS_PRESET_PAT_SECRET"],
     "workspace_url": "aea9b11a.us2a.app.preset.io"
   }
+}, 
+{
+  "type": "powerbi",
+  "name": "Power BI Sync",
+  "config": {
+    "database": "Cube Cloud: Treadwell Cube Demo"
+  }
+}, 
+{
+  "type": "powerbi",
+  "name": "Power BI Sync",
+  "config": {
+    "database": "Cube Cloud: Treadwell Cube Demo"
+  }
 }]
