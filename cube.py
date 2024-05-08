@@ -94,11 +94,4 @@ def sls(ctx: dict) -> list:
   "config": {
     "database": "Cube Cloud: Treadwell Cube Demo"
   }
-}, 
-{
-  "type": "powerbi",
-  "name": "Power BI Sync",
-  "config": {
-    "database": "Cube Cloud: Treadwell Cube Demo"
-  }
 }]
