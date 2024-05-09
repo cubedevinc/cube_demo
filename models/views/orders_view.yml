@@ -14,6 +14,16 @@ views:
             - created_at_Quarter
             - created_at_Month
             - created_at_Day
+      
+      folders:
+        - name: "Folder A"
+          members:
+            - total_amount
+            - average_order_value
+        - name: "Folder B"
+          members:
+            - completed_count
+            - completed_percentage
 
     cubes:
       - join_path: orders
