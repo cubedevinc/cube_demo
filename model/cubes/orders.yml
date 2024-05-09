@@ -68,6 +68,21 @@ cubes:
         format: currency
         description: "The total amount of orders sold, used to calculate revenue."
 
+      - name: average_amount
+        sql: '{CUBE.amount}'
+        type: avg
+        format: currency
+        description: "The total amount of orders sold, used to calculate revenue."
+
+      - name: average_amount_per_city
+        sql: '{CUBE.count}'
+        type: sum
+        post_aggregate: true
+        group_by:
+          - users.city
+        format: currency
+        description: "The total amount of orders sold, used to calculate revenue."
+
     pre_aggregations:
       - name: orders_rollup
         dimensions:
