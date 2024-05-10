@@ -9,7 +9,14 @@ cubes:
     sql_table: ECOM.ORDERS
     extends: base_orders
 
-    joins: []
+    joins:
+      - name: users
+        sql: "{CUBE}.USER_ID = {users}.ID"
+        relationship: many_to_one
+
+      - name: line_items
+        sql: "{CUBE}.ID = {line_items}.ORDER_ID"
+        relationship: one_to_many
 
     dimensions:      
       - name: days_to_complete

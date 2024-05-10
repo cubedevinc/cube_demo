@@ -3,14 +3,7 @@ cubes:
     public: false
     sql_table: ECOM.ORDERS
 
-    joins:
-      - name: users
-        sql: "{CUBE}.USER_ID = {users}.ID"
-        relationship: many_to_one
-
-      - name: line_items
-        sql: "{CUBE}.ID = {line_items}.ORDER_ID"
-        relationship: one_to_many
+    joins: []
 
     dimensions:
       - name: id
