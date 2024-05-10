@@ -9,14 +9,7 @@ cubes:
     sql_table: ECOM.ORDERS
     extends: base_orders
 
-    joins:
-      - name: users
-        sql: "{CUBE}.USER_ID = {users}.ID"
-        relationship: many_to_one
-
-      - name: line_items
-        sql: "{CUBE}.ID = {line_items}.ORDER_ID"
-        relationship: one_to_many
+    joins: []
 
     dimensions:      
       - name: days_to_complete
@@ -58,4 +51,3 @@ cubes:
         # refresh_key:
         #   every: 12 hours
         #   sql: SELECT MAX(created_at) FROM orders
-
