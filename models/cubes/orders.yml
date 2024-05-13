@@ -71,6 +71,12 @@ cubes:
         type: sum
         description: "The total amount sold, i.e. revenue"
 
+      - name: total_amount_ytd
+        sql: "{CUBE.amount}"
+        type: sum
+        rolling_window:
+          type: year_to_date
+
       - name: average_order_value
         sql: '{CUBE.amount}'
         type: avg

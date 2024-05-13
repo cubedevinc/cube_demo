@@ -39,6 +39,7 @@ views:
           - completed_count
           - count
           - total_amount
+          - total_amount_ytd
           - average_order_value
           - completed_percentage
 

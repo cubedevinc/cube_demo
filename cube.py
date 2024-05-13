@@ -8,19 +8,14 @@ config.schema_path = 'models'
 
 config.telemetry = False
 
-# Access Control
-
-# Fix query_rewrite compatibility with SQL push down
-
-# @config('query_rewrite')
-# def query_rewrite(query: dict, ctx: dict) -> dict:
-#   if 'user_id' in ctx['securityContext']:
-#     query['filters'].append({
-#       'member': 'orders_view.users_id',
-#       'operator': 'equals',
-#       'values': [ctx['securityContext']['user_id']]
-#     })
-#   return query
+@config('query_rewrite')
+def query_rewrite(query: dict, ctx: dict) -> dict:
+  if query['timeDimensions']:
+    query['timeDimensions'][0]['dateRange'] = [
+        "2020-01-01",
+        "2024-12-31"
+    ]
+  return query
 
 # Dynamic Data Model
 
