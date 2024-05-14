@@ -10,18 +10,22 @@ cubes:
         primary_key: true
 
       - name: category
+        description: "Product category"
         sql: PRODUCT_CATEGORY
         type: string
 
       - name: name
+        description: "Product name"
         sql: NAME
         type: string
 
       - name: created_at
+        description: "Timestamp of product creation"
         sql: CREATED_AT
         type: time
 
     measures:
       - name: count
+        description: "Product count"
         type: count
 
