@@ -1,4 +1,5 @@
 # comment
+# comments
 cubes:
   - name: orders
     sql_table: ECOM.ORDERS
