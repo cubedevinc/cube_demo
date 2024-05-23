@@ -1,6 +1,11 @@
+{%- macro foo(col, val) -%}
+  IFF({{ col | safe }} = '{{ val | safe }}', 1, 0)
+{%- endmacro -%}
+
 cubes:
   - name: users
-    sql_table: ECOM.USERS
+    sql: >
+      SELECT *, {{ foo('city', 'baton rouge') }} as test FROM ECOM.USERS
     public: false
 
     dimensions:
@@ -40,6 +45,10 @@ cubes:
       - name: created_at
         sql: CREATED_AT
         type: time
+      
+      - name: test
+        sql: test
+        type: number
 
     measures:
       - name: count
