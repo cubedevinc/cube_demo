@@ -37,6 +37,7 @@ views:
           - created_at_Day
 
           - completed_count
+          - processing_count
           - count
           - total_amount
           - total_amount_ytd
