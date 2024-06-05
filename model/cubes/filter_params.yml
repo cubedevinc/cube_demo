@@ -1,5 +1,6 @@
 cubes:
   - name: filter_group
+    public: true
     sql: >
       SELECT *
         FROM (
