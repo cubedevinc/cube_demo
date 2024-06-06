@@ -5,7 +5,7 @@
 
 cubes:
   - name: orders
-    public: false
+    public: true
     sql_table: ECOM.ORDERS
     extends: base_orders
 
