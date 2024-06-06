@@ -10,15 +10,11 @@ import os
 
 # Access Control
 
-# @config('query_rewrite')
-# def query_rewrite(query: dict, ctx: dict) -> dict:
-#   if 'user_id' in ctx['securityContext']:
-#     query['filters'].append({
-#       'member': 'orders_view.users_id',
-#       'operator': 'equals',
-#       'values': [ctx['securityContext']['user_id']]
-#     })
-#   return query
+@config('query_rewrite')
+def query_rewrite(query: dict, ctx: dict) -> dict:
+  if query['limit'] == 1:
+    query['limit'] = 0
+  return query
 
 # Dynamic Data Model
 
