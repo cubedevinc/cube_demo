@@ -1,4 +1,3 @@
-# comment
 cubes:
   - name: orders
     sql_table: ECOM.ORDERS
@@ -61,6 +60,11 @@ cubes:
         type: count
         filters:
           - sql: "{CUBE}.STATUS = 'completed'"
+
+      - name: processing_count
+        type: count
+        filters:
+          - sql: "{CUBE}.STATUS = 'processing'"
 
       - name: completed_percentage
         type: number
