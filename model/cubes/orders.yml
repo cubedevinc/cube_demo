@@ -53,6 +53,7 @@ cubes:
         measures:
           - count
           - completed_count
+          - users.user_count
         time_dimension: created_at
         granularity: day
         # refresh_key:

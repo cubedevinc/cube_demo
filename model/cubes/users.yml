@@ -44,3 +44,7 @@ cubes:
     measures:
       - name: count
         type: count
+
+      - name: user_count
+        type: count_distinct_approx
+        sql: "id"
