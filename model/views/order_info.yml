@@ -20,6 +20,7 @@ views:
           - city
           - age
           - gender
+          - user_count
 
       - join_path: orders.line_items.products
         prefix: true
