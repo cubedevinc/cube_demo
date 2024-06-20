@@ -12,6 +12,7 @@ cubes:
         sql: "{CUBE}.ID = {line_items}.ORDER_ID"
         relationship: one_to_many
 
+
     dimensions:
       - name: id
         sql: ID
