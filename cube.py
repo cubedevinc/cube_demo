@@ -2,6 +2,8 @@ from cube import config, file_repository
 import json
 import os
 
+# test
+
 # config.base_path = '/cube-api'
 
 # config.schema_path = 'models'
