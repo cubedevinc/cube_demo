@@ -23,7 +23,6 @@ cubes:
         sql: USER_ID
         type: number
         public: false
-        primary_key: true
 
       - name: status
         sql: STATUS
