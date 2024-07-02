@@ -23,7 +23,12 @@ cubes:
         type: string
         description: The status of the order (completed etc)
         meta:
-          label_member: users_city
+          # label_member: users_city
+          properties:
+            - name: Status Key
+              column: status
+            - name: Status Label
+              column: users_city
 
       - name: created_at
         sql: "{CUBE}.CREATED_AT"
