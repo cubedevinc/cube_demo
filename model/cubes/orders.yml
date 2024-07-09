@@ -81,4 +81,4 @@ cubes:
         granularity: day
         refresh_key:
           every: 12 hours
-          update_window: 7 day
+          update_window: 7 month
