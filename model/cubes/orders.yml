@@ -78,5 +78,6 @@ cubes:
           - total_amount
         time_dimension: created_at
         granularity: day
+        partition_granularity: year
         refresh_key:
           every: 12 hours
