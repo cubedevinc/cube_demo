@@ -82,5 +82,3 @@ cubes:
         partition_granularity: month
         refresh_key:
           every: 12 hours
-          # incremental: true
-          update_window: 7 day
