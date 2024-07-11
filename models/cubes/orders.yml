@@ -60,16 +60,6 @@ cubes:
         type: avg
         
     pre_aggregations:
-      - name: main
-        measures:
-          - orders.total_amount
-        dimensions:
-          - products.product_category
-          - orders.status
-        timeDimension: orders.created_at
-        granularity: quarter
-        partition_granularity: year
-
       - name: test
         measures:
           - orders.total_amount
