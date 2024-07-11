@@ -59,32 +59,32 @@ cubes:
         sql: '{CUBE.amount}'
         type: avg
         
-    # pre_aggregations:
-    #   - name: test
-    #     measures:
-    #       - orders.total_amount
-    #     dimensions:
-    #       - products.product_category
-    #     time_dimension: orders.created_at
-    #     granularity: year
+    pre_aggregations:
+      - name: test
+        measures:
+          - orders.total_amount
+        dimensions:
+          - users.city
+        time_dimension: orders.created_at
+        granularity: year
 
-    #   - name: test2
-    #     measures:
-    #       - orders.total_amount
-    #     dimensions:
-    #       - products.product_category
-    #       - orders.status
-    #     timeDimension: orders.created_at
-    #     granularity: year
+      - name: test2
+        measures:
+          - orders.total_amount
+        dimensions:
+          - users.city
+          - orders.status
+        timeDimension: orders.created_at
+        granularity: year
 
-    #   - name: test3
-    #     measures:
-    #       - orders.total_amount
-    #     dimensions:
-    #       - products.product_category
-    #       - orders.status
-    #     timeDimension: orders.created_at
-    #     granularity: quarter
+      - name: test3
+        measures:
+          - orders.total_amount
+        dimensions:
+          - users.city
+          - orders.status
+        timeDimension: orders.created_at
+        granularity: quarter
 
 
         
