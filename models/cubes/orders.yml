@@ -60,7 +60,7 @@ cubes:
         type: avg
         
     pre_aggregations:
-      - name: test
+      - name: orders1
         measures:
           - orders.total_amount
         dimensions:
@@ -68,7 +68,7 @@ cubes:
         time_dimension: orders.created_at
         granularity: year
 
-      - name: test2
+      - name: orders2
         measures:
           - orders.total_amount
         dimensions:
@@ -77,7 +77,7 @@ cubes:
         timeDimension: orders.created_at
         granularity: year
 
-      - name: test3
+      - name: orders3
         measures:
           - orders.total_amount
         dimensions:
@@ -85,6 +85,16 @@ cubes:
           - orders.status
         timeDimension: orders.created_at
         granularity: quarter
+
+      - name: orders4
+        measures:
+          - orders.total_amount
+        dimensions:
+          - users.city
+          - orders.status
+        timeDimension: orders.created_at
+        granularity: week
+        partition_granularity: month
 
 
         
