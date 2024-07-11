@@ -22,13 +22,6 @@ cubes:
         sql: STATUS
         type: string
         description: The status of the order (completed etc)
-        meta:
-          # label_member: users_city
-          properties:
-            - name: Status Key
-              column: status
-            - name: Status Label
-              column: users_city
 
       - name: created_at
         sql: "{CUBE}.CREATED_AT"
@@ -42,22 +35,6 @@ cubes:
         sql: '{line_items.total_amount}'
         type: number
         sub_query: true
-
-      - name: created_at_Year
-        sql: EXTRACT(YEAR FROM {CUBE}.CREATED_AT)
-        type: number
-
-      - name: created_at_Quarter
-        sql: EXTRACT(QUARTER FROM {CUBE}.CREATED_AT)
-        type: number
-
-      - name: created_at_Month
-        sql: EXTRACT(MONTH FROM {CUBE}.CREATED_AT)
-        type: number
-
-      - name: created_at_Day
-        sql: EXTRACT(DAY FROM {CUBE}.CREATED_AT)
-        type: number
 
     measures:
       - name: count
@@ -81,3 +58,44 @@ cubes:
       - name: average_order_value
         sql: '{CUBE.amount}'
         type: avg
+        
+    pre_aggregations:
+      - name: main
+        measures:
+          - orders.total_amount
+        dimensions:
+          - products.product_category
+          - orders.status
+        timeDimension: orders.created_at
+        granularity: quarter
+        partition_granularity: year
+
+      - name: test
+        measures:
+          - orders.total_amount
+        dimensions:
+          - products.product_category
+        time_dimension: orders.created_at
+        granularity: year
+
+      - name: test2
+        measures:
+          - orders.total_amount
+        dimensions:
+          - products.product_category
+          - orders.status
+        timeDimension: orders.created_at
+        granularity: year
+
+      - name: test3
+        measures:
+          - orders.total_amount
+        dimensions:
+          - products.product_category
+          - orders.status
+        timeDimension: orders.created_at
+        granularity: quarter
+
+
+        
+

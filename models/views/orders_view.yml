@@ -1,20 +1,7 @@
 views:
   - name: orders_view
     description: "Data about orders, amount, count and breakdown by status, users and products dimension."
-    meta:
-      hierarchies:
-        - name: "Demo Hierarchy"
-          levels:
-            - users_city
-            - status
-
-        - name: "Created At Hierarchy"
-          levels:
-            - created_at_Year
-            - created_at_Quarter
-            - created_at_Month
-            - created_at_Day
-      
+    meta:      
       folders:
         - name: "Folder A"
           members:
