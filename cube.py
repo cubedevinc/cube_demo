@@ -101,7 +101,7 @@ def sls(ctx: dict) -> list:
   "config": {
     "database": "Cube Cloud: Treadwell Cube Demo",
     "user": "mike@cube.dev",
-    "password": "gnG2bmEGah8E5fP!",
+    "password": os.environ["CUBEJS_METABASE_PAT_SECRET"],
     "url": "partner-cube.metabaseapp.com"
   }
 }]
