@@ -45,6 +45,10 @@ cubes:
         type: number
         sub_query: true
 
+      - name: test
+        type: string
+        sql: "test"
+
     measures:
       - name: count
         type: count
