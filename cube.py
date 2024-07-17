@@ -76,4 +76,15 @@ def sls(ctx: dict) -> list:
     "api_secret": "29e87c9893ea94fc51149adb96c9ce15b30e8923a6f57fa8cf049276445b68db",
     "workspace_url": "5276833d.us2a.app.preset.io"
   }
+}, 
+{
+  "type": "tableau-cloud",
+  "name": "Tableau Cloud Sync",
+  "config": {
+    "database": "Cube Cloud Demo: Morgan",
+    "region": "us-west-2b",
+    "site": "cubedev",
+    "personalAccessToken": "cube500",
+    "personalAccessTokenSecret": "mqPr0b1jRBedFOtMNsrwKQ==:obKzFgZoAmEWQdnc00EIsYHI8rFtHPcx"
+  }
 }]
