@@ -55,8 +55,12 @@ cubes:
         type: sum
         description: "The total amount sold, i.e. revenue"
 
+      # - name: average_order_value
+      #   sql: '{CUBE.amount}'
+      #   type: avg
+
       - name: average_order_value
-        sql: '{CUBE.amount}'
+        sql: '{CUBE.amount} / NULLIF({CUBE.count}, 0))'
         type: avg
         
     pre_aggregations:
