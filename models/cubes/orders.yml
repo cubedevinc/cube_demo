@@ -61,7 +61,7 @@ cubes:
 
       - name: average_order_value
         sql: '{CUBE.amount} / NULLIF({CUBE.count}, 0))'
-        type: avg
+        type: number
         
     pre_aggregations:
       - name: orders1
