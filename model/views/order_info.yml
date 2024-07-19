@@ -8,7 +8,6 @@ views:
           - created_at
           - completed_at
           - days_to_complete
-          - test
 
           - count
           - completed_count
