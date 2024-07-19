@@ -52,9 +52,6 @@ cubes:
     measures:
       - name: count
         type: count
-        drill_members:
-          - created_at
-          - days_to_complete
 
       - name: completed_count
         type: count
