@@ -1,0 +1,4 @@
+cubes:
+  - name: extended
+    extends: base
+    sql_table: ECOM.USERS

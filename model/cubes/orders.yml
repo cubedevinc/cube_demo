@@ -45,6 +45,10 @@ cubes:
         sql: "{days_to_complete}"
         type: avg
 
+      - name: one
+        sql: "1"
+        type: sum
+
     pre_aggregations:
       - name: orders_rollup
         dimensions:

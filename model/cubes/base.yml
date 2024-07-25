@@ -1,0 +1,7 @@
+cubes:
+  - name: base
+    sql_table: ECOM.ORDERS
+
+    measures:
+      - name: count
+        type: count
