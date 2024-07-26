@@ -45,10 +45,6 @@ cubes:
         type: number
         sub_query: true
 
-      - name: test
-        type: string
-        sql: "test"
-
     measures:
       - name: count
         type: count
@@ -83,6 +79,5 @@ cubes:
           - total_amount
         time_dimension: created_at
         granularity: day
-        partition_granularity: month
         refresh_key:
           every: 12 hours
