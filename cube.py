@@ -72,8 +72,8 @@ def sls(ctx: dict) -> list:
   "name": "Preset Sync",
   "config": {
     "database": "Morgan Cube Cloud Demo",
-    "api_token": "e1fe9756-df01-424b-b7d1-b15d46b2f6fa",
-    "api_secret": "29e87c9893ea94fc51149adb96c9ce15b30e8923a6f57fa8cf049276445b68db",
+    "api_token": "d7894fab-32de-4bf1-aa2f-a1502ac64cd4",
+    "api_secret": os.environ['PRESET_PASS'],
     "workspace_url": "5276833d.us2a.app.preset.io"
   }
 }, 
