@@ -85,6 +85,6 @@ def sls(ctx: dict) -> list:
     "region": "us-west-2b",
     "site": "cubedev",
     "personalAccessToken": "cube500",
-    "personalAccessTokenSecret": "mqPr0b1jRBedFOtMNsrwKQ==:obKzFgZoAmEWQdnc00EIsYHI8rFtHPcx"
+    "personalAccessTokenSecret": os.environ['TABLEAU_PASS']
   }
 }]
