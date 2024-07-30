@@ -10,14 +10,17 @@ cubes:
         primary_key: true
 
       - name: age
+        description: "The age of the user"
         sql: AGE
         type: number
 
       - name: gender
+        description: "Options are male and female"
         sql: GENDER
         type: string
 
       - name: city
+        description: "The user's city"
         sql: CITY
         type: string
 
@@ -30,17 +33,21 @@ cubes:
         type: string
 
       - name: name
+        description: "The user's full name"
         sql: "{first_name} || {last_name}"
         type: string
 
       - name: state
+        description: "The user's state"
         sql: STATE
         type: string
 
       - name: created_at
+        description: "Timestamp of user account creation"
         sql: CREATED_AT
         type: time
 
     measures:
       - name: count
+        description: "User count"
         type: count
