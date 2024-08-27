@@ -5,18 +5,23 @@ module.exports = {
     securityContext
   }) => {
     //return securityContext.team;
-    return securityContext;
+    return securityContext.team;
   },
   // Security hook which is run before a query is executed
   // https://cube.dev/docs/reference/configuration/config#queryrewrite
-  // queryRewrite: (query, {
-  //   securityContext
-  // }) => {
-  //   if (!securityContext.team) {
-  //     securityContext.team = 'public';
-  //   }
-  //   return query;
-  // },
+  queryRewrite: (query, {securityContext}) => {
+    if (!securityContext.team) {
+      securityContext.team = 'public';
+    }
+    console.log(securityContext);
+    return query;
+  },
+  extendContext: (req) => {
+    console.log(req.rawHeaders);
+    return {
+      securityContext: {"ip": req.ip}
+    }
+  },
   checkSqlAuth: (query, username) => {
     const securityContext = {
       team: username
