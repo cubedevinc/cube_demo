@@ -22,6 +22,14 @@ cubes:
         sql: CREATED_AT
         type: time
 
+      - name: created_at
+        sql: CREATED_AT
+        type: time
+
+      - name: one
+        sql: "1"
+        type: number
+
     measures:
       - name: count
         type: count
