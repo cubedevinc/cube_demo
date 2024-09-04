@@ -28,7 +28,10 @@ import os
 
 @config('check_sql_auth')
 def check_sql_auth(query: dict, username: str, password: str) -> dict:
-  return f"username from thoughtspot: {username}"
+  print(f"username from thoughtspot: {username}")
+  return {
+    'password': os.environ['CUBEJS_SQL_PASSWORD']
+  }
 
 # @config('driver_factory')
 # def driver_factory(ctx: dict) -> None:
