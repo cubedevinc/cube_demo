@@ -36,19 +36,19 @@ def check_sql_auth(query: dict, username: str, password: str) -> dict:
   print(f"pw from thoughtspot: {password}")
   return {
     'password': os.environ.get('CUBEJS_SQL_PASSWORD', 'no_password'),
-    'securityContext': {'u': username}
+    'securityContext': {'tsu': username}
   }
 
 @config('context_to_app_id')
 def context_to_app_id(ctx: dict) -> str:
   sc = ctx.get('securityContext', {})
-  u = sc.get('u', 'none')
+  u = sc.get('tsu', 'none')
   return f"app_id_{u}"
 
 @config('context_to_orchestrator_id')
 def context_to_orchestrator_id(ctx: dict) -> str:
   sc = ctx.get('securityContext', {})
-  u = sc.get('u', 'none')
+  u = sc.get('tsu', 'none')
   return f"orchestrator_id_{u}"
 
 # @config('driver_factory')
