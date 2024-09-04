@@ -26,15 +26,9 @@ import os
 # def context_mapping(ctx: dict):
 #   return ctx['securityContext'].setdefault('team')
 
-# @config('check_sql_auth')
-# def check_sql_auth(query: dict, username: str, password: str) -> dict:
-#   security_context = {
-#     'team': username
-#   }
-#   return {
-#     'password': os.environ['CUBEJS_SQL_PASSWORD'],
-#     'securityContext': security_context
-#   }
+@config('check_sql_auth')
+def check_sql_auth(query: dict, username: str, password: str) -> dict:
+  return f"username from thoughtspot: {username}"
 
 # @config('driver_factory')
 # def driver_factory(ctx: dict) -> None:
