@@ -26,4 +26,5 @@ views:
         prefix: true
         includes: 
           - category
+          - completed_at
 
