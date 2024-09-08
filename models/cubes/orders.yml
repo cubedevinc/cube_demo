@@ -22,6 +22,14 @@ cubes:
         sql: STATUS
         type: string
         description: The status of the order (completed etc)
+        meta:
+          key_member: id
+          label_member: city
+          properties:
+            - name: My Prop 1 Is Id
+              column: id
+            - name: My Prop 2 Is City
+              column: city
 
       - name: created_at
         sql: "{CUBE}.CREATED_AT"
