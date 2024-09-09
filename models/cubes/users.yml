@@ -21,6 +21,18 @@ cubes:
         sql: GENDER
         type: string
 
+      - name: meta_test
+        sql: CITY
+        type: string
+        meta:
+          key_member: id
+          label_member: state
+          properties:
+            - name: My Prop 1 Is Gender
+              column: gender
+            - name: My Prop 2 Is State
+              column: state
+
       - name: last_name
         sql: {{ masked('LAST_NAME', COMPILE_CONTEXT.securityContext) }}
         type: string
