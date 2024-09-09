@@ -25,8 +25,8 @@ cubes:
         sql: CITY
         type: string
         meta:
-          key_member: id
-          label_member: state
+          key_member: users_id
+          label_member: users_state
           properties:
             - name: My Prop 1 Is Gender
               column: users_gender
