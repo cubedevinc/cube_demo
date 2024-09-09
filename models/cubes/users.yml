@@ -29,9 +29,9 @@ cubes:
           label_member: state
           properties:
             - name: My Prop 1 Is Gender
-              column: gender
+              column: users_gender
             - name: My Prop 2 Is State
-              column: state
+              column: users_state
 
       - name: last_name
         sql: {{ masked('LAST_NAME', COMPILE_CONTEXT.securityContext) }}
