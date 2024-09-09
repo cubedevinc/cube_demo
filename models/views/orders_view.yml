@@ -38,6 +38,7 @@ views:
           - gender
           - last_name
           - count
+          - meta_test
 
       - join_path: orders.line_items.products
         prefix: true
