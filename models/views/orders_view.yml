@@ -11,6 +11,23 @@ views:
           members:
             - completed_count
             - completed_percentage
+      dimensions:
+        - name: Test Multiple Hierarchies
+          hierarchies:
+            - name: Hierarchy A
+              folder: Folder for A and B
+              levels:
+                - users_city
+                - users_state
+            - name: Hierarchy B
+              folder: Folder for A and B
+              levels:
+                - products_product_category
+                - status
+            - name: Hierarchy C
+              levels:
+                - users_city
+                - status
 
     cubes:
       - join_path: orders
