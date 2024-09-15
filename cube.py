@@ -136,6 +136,17 @@ def sls(ctx: dict) -> list:
     "personalAccessToken": os.environ['TABLEAU_PAT_NAME_CUBEDEV'],
     "personalAccessTokenSecret": os.environ['TABLEAU_PAT_SECRET_CUBEDEV']
   }
+},
+{
+  "type": "tableau-cloud",
+  "name": "Tableau Rory BDL",
+  "config": {
+    "database": "Cube Cloud: cube_demo",
+    "region": "10ax",
+    "site": "rorygatto",
+    "personalAccessToken": "rorygattobdl",
+    "personalAccessTokenSecret": "8cf+alSVSqijwkhEH6J5fw==:AkKa1Ww25MTLW96qRbaGDyNlBM5FE5jV"
+  }
 }];
 
 @config('repository_factory')
