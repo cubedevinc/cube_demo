@@ -1,5 +1,3 @@
-{% set scheduled_refresh = get_scheduled_refresh() %}
-
 cubes:
   - name: line_items
     sql_table: ECOM.LINE_ITEMS
@@ -10,15 +8,23 @@ cubes:
         sql: "{CUBE}.PRODUCT_ID = {products}.ID"
         relationship: many_to_one
 
-      - name: orders
-        sql: "{CUBE}.ORDER_ID = {orders}.ID"
-        relationship: many_to_one
-
     dimensions:
       - name: id
         sql: ID
         type: number
         primary_key: true
+
+      - name: price
+        sql: PRICE
+        type: number
+
+      - name: order_id
+        sql: ORDER_ID
+        type: number
+
+      - name: product_id
+        sql: PRODUCT_ID
+        type: number
 
       - name: created_at
         sql: CREATED_AT
@@ -31,14 +37,6 @@ cubes:
       - name: total_amount
         sql: PRICE
         type: sum
-        
-    pre_aggregations:
-      - name: line_items_summary
-        scheduled_refresh: {{ scheduled_refresh }}
-        measures:
-          - count
-          - total_amount
-        time_dimension: created_at
-        granularity: day
-        dimensions:
-          - products.product_category
+        format: currency
+        description: "The total amount sold"
+
