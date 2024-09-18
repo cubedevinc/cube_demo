@@ -1,12 +1,6 @@
 views:
   - name: order_info
     description: "This view contains information about orders, the products in those orders, and the users that placed them."
-    meta:
-      hierarchies:
-        - name: "Products"
-          levels:
-            - products_category
-            - products_name
 
     cubes:
       - join_path: orders
