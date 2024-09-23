@@ -136,6 +136,19 @@ def sls(ctx: dict) -> list:
     "personalAccessToken": os.environ['TABLEAU_PAT_NAME_CUBEDEV'],
     "personalAccessTokenSecret": os.environ['TABLEAU_PAT_SECRET_CUBEDEV']
   }
+}, {
+  "type": "snowflake-cortex",
+  "name": "Snowflake Cortex Sync",
+  "config": {
+    "account": "DPRJVCP-CUBEDEV_PARTNER",
+    "region": "us-west-2",
+    "warehouse": "CUBE_DEMO_WH",
+    "role": "CUBE_DEMO",
+    "username": os.environ['CUBEJS_DB_USER'],
+    "password": os.environ['CUBEJS_DB_PASS'],
+    "database": os.environ['CUBEJS_DB_NAME'],
+    "schema": "ECOM",
+  }
 }];
 
 @config('repository_factory')
