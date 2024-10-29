@@ -65,21 +65,25 @@ import os
 # def context_to_api_scopes(context: dict, default_scopes: list[str]) -> list[str]:
 #   return ['meta', 'data', 'graphql']
 
+
+
 @config('semantic_layer_sync')
 def sls(ctx: dict) -> list:
-    pat_name = os.getenv('TABLEAU_PAT_NAME_CUBEDEV', None)
-    pat_secret = os.getenv('TABLEAU_PAT_SECRET_CUBEDEV', None)
-    if pat_name and pat_secret:
-        return [{
-            "type": "tableau-cloud",
-            "name": "Tableau Cloud Sync",
-            "config": {
-                "database": "Cube Cloud: artyom_cube_demo",
-                "region": "us-west-2b",
-                "site": "cubedev",
-                "personalAccessToken": pat_name,
-                "personalAccessTokenSecret": pat_secret
-            }
-        }]
-    else:
-        return []
+    return [{
+  "type": "tableau-cloud",
+  "name": "Tableau Cloud Sync",
+  "config": {
+    "database": "Cube Cloud: Morgan Demo",
+    "region": "us-west-2b",
+    "site": "cubedev",
+    "personalAccessToken": "cube",
+    "personalAccessTokenSecret": os.getenv('TABLEAU_PAT', None)
+  }
+}, 
+{
+  "type": "powerbi",
+  "name": "Power BI Sync",
+  "config": {
+    "database": "Cube Cloud: Cube Cloud Demo"
+  }
+}]
