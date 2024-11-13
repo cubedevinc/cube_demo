@@ -45,3 +45,29 @@ def query_rewrite(query: dict, ctx: dict) -> dict:
 @config('can_switch_sql_user')
 def can_switch_sql_user(current_user: str, new_user: str) -> dict:
   return True
+
+
+@config('context_to_app_id')
+def context_to_app_id(ctx: dict) -> str:
+  user_name = ctx.get('securityContext', {}).get('user_name', 'cube')
+  return f"CUBE_APP_{user_name}"
+ 
+@config('context_to_orchestrator_id')
+def context_to_orchestrator_id(ctx: dict) -> str:
+  user_name = ctx.get('securityContext', {}).get('user_name', 'cube')
+  return f"CUBE_APP_{user_name}"
+
+@config('scheduled_refresh_contexts')
+def scheduled_refresh_contexts() -> list[object]:
+  return [
+    {
+      'securityContext': {
+        'user_name': 'mike@cube.dev'
+      }
+    },
+    {
+      'securityContext': {
+        'user_name': 'cube'
+      }
+    }
+  ]
