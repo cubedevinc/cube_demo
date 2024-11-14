@@ -1,0 +1,28 @@
+cubes:
+  - name: products
+    sql_table: ECOM.PRODUCTS
+    public: false
+
+    dimensions:
+      - name: id
+        sql: ID
+        type: number
+        primary_key: true
+
+      - name: category
+        sql: PRODUCT_CATEGORY
+        type: string
+        description: a description of this field
+
+      - name: name
+        sql: NAME
+        type: string
+
+      - name: created_at
+        sql: CREATED_AT
+        type: time
+
+    measures:
+      - name: count
+        type: count
+

@@ -21,9 +21,12 @@ views:
           - age
           - gender
           - user_count
+          - last_name
 
-      - join_path: orders.line_items.products
+      - join_path: orders.products
         prefix: true
         includes: 
-          - category
+          - product_category
+
+          
 

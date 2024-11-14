@@ -1,0 +1,54 @@
+cubes:
+  - name: users
+    sql_table: ECOM.USERS
+    public: false
+
+    dimensions:
+      - name: id
+        sql: ID
+        type: number
+        primary_key: true
+
+      - name: age
+        sql: AGE
+        type: number
+
+      - name: gender
+        sql: GENDER
+        type: string
+
+      - name: city
+        sql: CITY
+        type: string
+
+      - name: last_name
+        sql: LAST_NAME
+        type: string
+
+      - name: first_name
+        sql: FIRST_NAME
+        type: string
+
+      - name: name
+        sql: "{first_name} || {last_name}"
+        type: string
+
+      - name: state
+        sql: STATE
+        type: string
+
+      - name: created_at
+        sql: CREATED_AT
+        type: time
+
+      - name: one
+        sql: "1"
+        type: number
+
+    measures:
+      - name: count
+        type: count
+
+      - name: user_count
+        type: count_distinct_approx
+        sql: "id"

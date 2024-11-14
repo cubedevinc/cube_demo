@@ -1,36 +1,43 @@
 cubes:
   - name: line_items
-    sql_table: ECOM.LINE_ITEMS
-    public: false
+    sql_table: "\"ECOM\".\"LINE_ITEMS\""
 
     joins:
+      - name: orders
+        sql: "{CUBE}.\"ORDER_ID\" = {orders}.\"ID\""
+        relationship: many_to_one
+
       - name: products
-        sql: "{CUBE}.PRODUCT_ID = {products}.ID"
+        sql: "{CUBE}.\"PRODUCT_ID\" = {products}.\"ID\""
         relationship: many_to_one
 
     dimensions:
       - name: id
-        sql: ID
+        sql: "{CUBE}.\"ID\""
         type: number
         primary_key: true
 
       - name: price
-        sql: PRICE
+        sql: "{CUBE}.\"PRICE\""
         type: number
 
       - name: order_id
-        sql: ORDER_ID
+        sql: "{CUBE}.\"ORDER_ID\""
         type: number
 
       - name: product_id
-        sql: PRODUCT_ID
+        sql: "{CUBE}.\"PRODUCT_ID\""
         type: number
 
       - name: created_at
-        sql: CREATED_AT
+        sql: "{CUBE}.\"CREATED_AT\""
         type: time
 
     measures:
       - name: count
         type: count
+
+    pre_aggregations:
+      # Pre-aggregation definitions go here.
+      # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started
 

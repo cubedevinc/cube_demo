@@ -1,0 +1,36 @@
+cubes:
+  - name: line_items
+    sql_table: ECOM.LINE_ITEMS
+    public: false
+
+    joins:
+      - name: products
+        sql: "{CUBE}.PRODUCT_ID = {products}.ID"
+        relationship: many_to_one
+
+    dimensions:
+      - name: id
+        sql: ID
+        type: number
+        primary_key: true
+
+      - name: price
+        sql: PRICE
+        type: number
+
+      - name: order_id
+        sql: ORDER_ID
+        type: number
+
+      - name: product_id
+        sql: PRODUCT_ID
+        type: number
+
+      - name: created_at
+        sql: CREATED_AT
+        type: time
+
+    measures:
+      - name: count
+        type: count
+
