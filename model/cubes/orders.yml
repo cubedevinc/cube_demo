@@ -7,6 +7,10 @@ cubes:
         sql: "{CUBE}.\"USER_ID\" = {users}.\"USER_ID\""
         relationship: many_to_one
 
+      - name: line_items
+        sql: "{CUBE}.ID = {line_items}.ORDER_ID"
+        relationship: one_to_many
+
     dimensions:
       - name: id
         sql: "{CUBE}.\"ID\""
@@ -35,8 +39,6 @@ cubes:
     measures:
       - name: count
         type: count
-
-      test
 
     pre_aggregations:
       # Pre-aggregation definitions go here.
