@@ -1,107 +1,73 @@
-from cube import config, file_repository
-import json
+from cube import config
 import os
 
-# config.base_path = '/cube-api'
-
-# config.schema_path = 'models'
-
-# config.telemetry = False
-
-# Access Control
-
-# @config('query_rewrite')
-# def query_rewrite(query: dict, ctx: dict) -> dict:
-#   if 'user_id' in ctx['securityContext']:
-#     query['filters'].append({
-#       'member': 'orders_view.users_id',
-#       'operator': 'equals',
-#       'values': [ctx['securityContext']['user_id']]
-#     })
-#   return query
-
-# Dynamic Data Model
-
-# @config('context_to_app_id')
-# def context_mapping(ctx: dict):
-#   return ctx['securityContext'].setdefault('team')
-
-# @config('check_sql_auth')
-# def check_sql_auth(query: dict, username: str, password: str) -> dict:
-#   security_context = {
-#     'team': username
-#   }
-#   return {
-#     'password': os.environ['CUBEJS_SQL_PASSWORD'],
-#     'securityContext': security_context
-#   }
-
-# @config('driver_factory')
-# def driver_factory(ctx: dict) -> None:
-#   context = ctx['securityContext']
-#   data_source = ctx['dataSource']
- 
-#   if data_source == 'postgres':
-#     return {
-#       'type': 'postgres',
-#       'host': 'demo-db-examples.cube.dev',
-#       'user': 'cube',
-#       'password': '12345',
-#       'database': 'ecom'
-#     }
-
-
-# Other
-
-# @config('repository_factory')
-# def repository_factory(ctx: dict) -> list[dict]:
-#   return file_repository('models')
-
-# @config('logger')
-# def logger(message: str, params: dict) -> None:
-#   print(f'MY CUSTOM LOGGER --> {message}: {params}')
-
-# @config('context_to_api_scopes')
-# def context_to_api_scopes(context: dict, default_scopes: list[str]) -> list[str]:
-#   return ['meta', 'data', 'graphql']
-
 @config('semantic_layer_sync')
-def sls(ctx: dict) -> list:
-    return [{
-  "type": "tableau-cloud",
-  "name": "Tableau Cloud Sync",
-  "config": {
-    "database": "Cube Cloud: Treadwell Cube Demo",
-    "region": "us-west-2b",
-    "site": "cubedev",
-    "personalAccessToken": "treadwell_cube_demo",
-    "personalAccessTokenSecret": os.environ["CUBEJS_TABLEAU_PAT_SECRET"]
+def semantic_layer_sync(ctx: dict) -> list[dict]:
+  return [
+    {
+      'type': 'tableau',
+      'name': 'Tableau Cloud Sync',
+      'useRlsFilters': True,
+      'config': {
+        'region': 'us-west-2b',
+        'site': 'cubedev',
+        'personalAccessToken': 'treadwell_cube_demo',
+        'personalAccessTokenSecret': os.environ['CUBEJS_TABLEAU_PAT_SECRET'],
+        'database': 'Cube Cloud: Treadwell Cube Demo',
+      },
+    },
+  ]
+
+@config('check_sql_auth')
+def check_sql_auth(req: dict, user_name: str, password: str) -> dict:
+  print(user_name)
+  
+  return {
+    'password': password,
+    'securityContext': {
+      'user_name': user_name
+    }
   }
-}, 
-{
-  "type": "preset",
-  "name": "Preset Sync",
-  "config": {
-    "database": "Cube Cloud: Treadwell Cube Demo",
-    "api_token": "8fc4f74e-7940-46d1-9ae6-77343f482f70",
-    "api_secret": os.environ["CUBEJS_PRESET_PAT_SECRET"],
-    "workspace_url": "aea9b11a.us2a.app.preset.io"
-  }
-}, 
-{
-  "type": "powerbi",
-  "name": "Power BI Sync",
-  "config": {
-    "database": "Cube Cloud: Treadwell Cube Demo"
-  }
-}, 
-{
-  "type": "metabase",
-  "name": "Metabase Sync",
-  "config": {
-    "database": "Cube Cloud: Treadwell Cube Demo",
-    "user": "mike@cube.dev",
-    "password": os.environ["CUBEJS_METABASE_PAT_SECRET"],
-    "url": "partner-cube.metabaseapp.com"
-  }
-}]
+
+@config('query_rewrite')
+def query_rewrite(query: dict, ctx: dict) -> dict:
+  user_name = ctx.get('securityContext', {}).get('user_name', 'cube')
+ 
+  # if user_name != 'cube':
+  #   query['filters'].append({
+  #     'member': 'users.user_name',
+  #     'operator': 'equals',
+  #     'values': [user_name],
+  #   })
+ 
+  return query
+
+@config('can_switch_sql_user')
+def can_switch_sql_user(current_user: str, new_user: str) -> dict:
+  return True
+
+
+@config('context_to_app_id')
+def context_to_app_id(ctx: dict) -> str:
+  user_name = ctx.get('securityContext', {}).get('user_name', 'cube')
+  return f"CUBE_APP_{user_name}"
+ 
+@config('context_to_orchestrator_id')
+def context_to_orchestrator_id(ctx: dict) -> str:
+  user_name = ctx.get('securityContext', {}).get('user_name', 'cube')
+  return f"CUBE_APP_{user_name}"
+
+@config('scheduled_refresh_contexts')
+def scheduled_refresh_contexts() -> list[object]:
+  return [
+    {
+      'securityContext': {
+        'user_name': 'mike@cube.dev'
+      }
+    },
+    {
+      'securityContext': {
+        'user_name': 'cube'
+      }
+    }
+  ]
