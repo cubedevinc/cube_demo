@@ -22,6 +22,10 @@ cubes:
         sql: "{CUBE}.COMPLETED_AT"
         type: time
 
+      - name: days_to_complete
+        sql: "{completed_at}::DATE - {created_at}::DATE"
+        type: number
+
     measures:
       - name: completed_count
         type: count
@@ -32,6 +36,10 @@ cubes:
         type: number
         sql: "({completed_count} / NULLIF({count}, 0)) * 100.0"
         format: percent
+
+      - name: avg_days_to_complete
+        sql: "{CUBE.days_to_complete}"
+        type: avg
 
     pre_aggregations:
       - name: orders_rollup
