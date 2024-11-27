@@ -29,6 +29,10 @@ cubes:
         filters:
         - sql: "{CUBE}.STATUS = 'completed'"
 
+      - name: orders
+        type: sum
+        sql: "{CUBE}.ID"
+
       {%- for s in statuses %}
       - name: {{ s | safe }}_count
         type: count
@@ -45,17 +49,62 @@ cubes:
         sql: "{days_to_complete}"
         type: avg
 
+      - name: current_month_orders
+        sql: "{CUBE}.{orders}"
+        type: sum   
+        rolling_window:
+          trailing: 1 month
+          leading: -0 month
+          offset: end
+
+      - name: Same_month_LY
+        sql: "{CUBE}.{orders}"
+        type: sum
+        rolling_window:
+          trailing: 13 month
+          leading: -12 month
+          offset: end
+
+      - name: previous_month_orders
+        sql: "{CUBE}.{orders}"
+        type: sum
+        rolling_window:
+          trailing: 2 month
+          leading: -1 month
+          offset: end
+
+      - name: CY_Orders
+        sql: "{CUBE}.{orders}"
+        type: sum
+        rolling_window:
+          trailing: 1 year
+          leading: -0 year
+          offset: end
+
+      - name: PY_Orders
+        sql: "{CUBE}.{orders}"
+        type: sum
+        rolling_window:
+          trailing: 2 year
+          leading: -1 year
+          offset: end
+
     pre_aggregations:
       - name: orders_rollup
         dimensions:
           - status
           - products.category
         measures:
-          - count
+          - orders
           - completed_count
-          - users.user_count
+          - current_month_orders
+          - previous_month_orders
+          - CY_Orders
+          - PY_Orders
+          - Same_month_LY
+        
         time_dimension: created_at
         granularity: day
-        # refresh_key:
-        #   every: 12 hours
-        #   sql: SELECT MAX(created_at) FROM orders
+        refresh_key:
+          every: 21 day
+          timezone: 'UTC'
