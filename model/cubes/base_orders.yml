@@ -20,14 +20,6 @@ cubes:
         sql: STATUS
         type: string
 
-      - name: created_at
-        sql: CREATED_AT
-        type: time
-
-      - name: completed_at
-        sql: COMPLETED_AT
-        type: time
-
     measures:
       - name: count
         type: count

@@ -1,8 +1,3 @@
-{%- set statuses = [
-  "processing",
-  "shipped"
-] -%}
-
 cubes:
   - name: orders
     public: true
@@ -19,6 +14,14 @@ cubes:
         relationship: one_to_many
 
     dimensions:      
+      - name: created_at
+        sql: "{CUBE}.CREATED_AT"
+        type: time
+
+      - name: completed_at
+        sql: "{CUBE}.COMPLETED_AT"
+        type: time
+
       - name: days_to_complete
         sql: "{completed_at}::DATE - {created_at}::DATE"
         type: number
@@ -29,24 +32,13 @@ cubes:
         filters:
         - sql: "{CUBE}.STATUS = 'completed'"
 
-      - name: orders
-        type: sum
-        sql: "{CUBE}.ID"
-
-      {%- for s in statuses %}
-      - name: {{ s | safe }}_count
-        type: count
-        filters:
-        - sql: {{ "{CUBE}.STATUS = '" + s + "'" | safe}}
-      {%- endfor %}
-
       - name: completed_percentage
         type: number
         sql: "({completed_count} / NULLIF({count}, 0)) * 100.0"
         format: percent
 
       - name: avg_days_to_complete
-        sql: "{days_to_complete}"
+        sql: "{CUBE.days_to_complete}"
         type: avg
 
       - name: current_month_orders
