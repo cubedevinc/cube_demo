@@ -32,6 +32,10 @@ cubes:
         filters:
         - sql: "{CUBE}.STATUS = 'completed'"
 
+      - name: orders
+        type: count
+        sql: "{CUBE}.ID"
+
       - name: completed_percentage
         type: number
         sql: "({completed_count} / NULLIF({count}, 0)) * 100.0"
@@ -41,45 +45,52 @@ cubes:
         sql: "{CUBE.days_to_complete}"
         type: avg
 
-      - name: current_month_orders
-        sql: "{CUBE}.{orders}"
-        type: sum   
-        rolling_window:
-          trailing: 1 month
-          leading: -0 month
-          offset: end
+      # - name: current_month_orders
+      #   sql: "{CUBE}.{orders}"
+      #   type: sum   
+      #   rolling_window:
+      #     trailing: 1 month
+      #     leading: -0 month
+      #     offset: end
 
-      - name: Same_month_LY
-        sql: "{CUBE}.{orders}"
-        type: sum
-        rolling_window:
-          trailing: 13 month
-          leading: -12 month
-          offset: end
+      # - name: Same_month_LY
+      #   sql: "{CUBE}.{orders}"
+      #   type: sum
+      #   rolling_window:
+      #     trailing: 13 month
+      #     leading: -12 month
+      #     offset: end
 
-      - name: previous_month_orders
-        sql: "{CUBE}.{orders}"
-        type: sum
-        rolling_window:
-          trailing: 2 month
-          leading: -1 month
-          offset: end
+      # - name: previous_month_orders
+      #   sql: "{CUBE}.{orders}"
+      #   type: sum
+      #   rolling_window:
+      #     trailing: 2 month
+      #     leading: -1 month
+      #     offset: end
 
-      - name: CY_Orders
-        sql: "{CUBE}.{orders}"
-        type: sum
-        rolling_window:
-          trailing: 1 year
-          leading: -0 year
-          offset: end
+      # - name: Orders_YTD
+      #   sql: orders
+      #   type: sum
+      #   rolling_window:
+      #     type: to_date
+      #     granularity: year
 
-      - name: PY_Orders
-        sql: "{CUBE}.{orders}"
-        type: sum
-        rolling_window:
-          trailing: 2 year
-          leading: -1 year
-          offset: end
+      # - name: CY_Orders
+      #   sql: "{CUBE}.{orders}"
+      #   type: sum
+      #   rolling_window:
+      #     trailing: 1 year
+      #     leading: -0 year
+      #     offset: end
+
+      # - name: PY_Orders
+      #   sql: "{CUBE}.{orders}"
+      #   type: sum
+      #   rolling_window:
+      #     trailing: 2 year
+      #     leading: -1 year
+      #     offset: end
 
     pre_aggregations:
       - name: orders_rollup
@@ -89,11 +100,11 @@ cubes:
         measures:
           - orders
           - completed_count
-          - current_month_orders
-          - previous_month_orders
-          - CY_Orders
-          - PY_Orders
-          - Same_month_LY
+          # - current_month_orders
+          # - previous_month_orders
+          # - CY_Orders
+          # - PY_Orders
+         # - Same_month_LY
         
         time_dimension: created_at
         granularity: day
