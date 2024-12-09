@@ -25,6 +25,10 @@ cubes:
       - name: days_to_complete
         sql: "{completed_at}::DATE - {created_at}::DATE"
         type: number
+      
+      - name: one
+        sql: "1"
+        type: number
 
     measures:
       - name: completed_count
