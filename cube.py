@@ -16,6 +16,16 @@ def semantic_layer_sync(ctx: dict) -> list[dict]:
         'database': 'Cube Cloud: Treadwell Cube Demo',
       },
     },
+    {
+      "name": "Preset Sync",
+      "type": "preset",
+      "config": {
+        "api_secret": os.environ['CUBEJS_PRESET_PAT_SECRET'],
+        "api_token": "04988220-0955-487b-b656-08b8c9c6450f",
+        "database": "Cube Cloud: Treadwell Cube Demo",
+        "workspace_url": "5276833d.us2a.app.preset.io"
+      }
+    }
   ]
 
 @config('check_sql_auth')
