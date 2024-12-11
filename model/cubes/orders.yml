@@ -58,4 +58,8 @@ cubes:
         sql: created_at
         type: max
 
+      - name: completed_count
+        sql: CASE WHEN {CUBE.status} = 'completed' THEN {CUBE.id} END
+        type: count
+
 

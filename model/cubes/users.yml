@@ -50,3 +50,6 @@ cubes:
         sql: "{total_lifetime_value} / {count}"
         type: number
 
+    joins: 
+
+    title: zxc
