@@ -1,7 +1,6 @@
 cubes:
   - name: users
     sql_table: ECOM.USERS
-    public: false
 
     dimensions:
       - name: id
@@ -52,3 +51,23 @@ cubes:
       - name: user_count
         type: count_distinct_approx
         sql: "id"
+
+    access_policy:
+      - role: admin
+
+      - role: sales_manager
+        member_level:
+          excludes:
+            - first_name
+            - name
+        row_level:
+          filters:
+            - member: "{state}"
+              operator: equals
+              values: "{ [securityContext.manager_state] }"
+
+      - role: '*'
+        member_level:
+          excludes:
+            - first_name
+            - name

@@ -33,9 +33,10 @@ def check_sql_auth(req: dict, user_name: str, password: str) -> dict:
   print(user_name)
   
   return {
-    'password': password,
+    'password': os.environ['CUBEJS_SQL_PASSWORD'],
     'securityContext': {
-      'user_name': user_name
+      'user_name': user_name,
+      'manager_state': "us-la"
     }
   }
 
@@ -81,3 +82,10 @@ def scheduled_refresh_contexts() -> list[object]:
       }
     }
   ]
+
+@config('context_to_roles')
+def context_to_roles(context):
+    if context.get("securityContext", {}).get("user_name", "cube") == "mike@cube.dev":
+      return ["sales_manager"]
+    else:
+      return context.get("securityContext", {}).get("roles", [])
