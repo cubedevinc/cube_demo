@@ -21,7 +21,34 @@ cubes:
       - name: completed_at
         sql: "{CUBE}.COMPLETED_AT"
         type: time
+      
+      - name: days_to_complete
+        sql: "{completed_at}::DATE - {created_at}::DATE"
+        type: number
 
     measures:
       - name: count
         type: count
+
+      - name: completed_count
+        type: count
+        filters:
+          - sql: "{CUBE}.STATUS = 'completed'"
+
+      - name: completed_percentage
+        type: number
+        sql: "({completed_count} / NULLIF({count}, 0)) * 100.0"
+        format: percent
+      
+      - name: avg_days_to_complete
+        type: avg
+        sql: "{CUBE}.days_to_complete"
+
+    pre_aggregations:
+      - name: orders_by_status
+        dimensions:
+          - CUBE.status
+          - products.category
+        measures:
+          - CUBE.count
+          - CUBE.completed_count
