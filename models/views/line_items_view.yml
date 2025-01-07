@@ -17,6 +17,5 @@ views:
         prefix: true
         includes: 
           - city
-          - age
           - state
           
