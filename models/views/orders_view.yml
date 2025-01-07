@@ -35,10 +35,6 @@ views:
           - status
           - created_at
           - id
-          - created_at_Year
-          - created_at_Quarter
-          - created_at_Month
-          - created_at_Day
 
           - completed_count
           - count
@@ -52,7 +48,6 @@ views:
           - id
           - city
           - state
-          - age
           - gender
           - last_name
           - count
