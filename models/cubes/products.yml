@@ -1,25 +1,26 @@
 cubes:
   - name: products
-    sql_table: hive_metastore.default.products 
+    # sql: SELECT * FROM 's3://cube-tutorial/products.csv'
+    sql_table: hive_metastore.default.products
     public: false
 
     dimensions:
       - name: id
-        sql: "{CUBE}.ID"
+        sql: id
         type: number
         primary_key: true
 
-      - name: product_category
-        sql: PRODUCT_CATEGORY
-        type: string
-
       - name: name
-        sql: NAME
+        sql: name
         type: string
 
       - name: created_at
-        sql: CREATED_AT
+        sql: "{CUBE}.created_at::TIMESTAMP"
         type: time
+
+      - name: product_category
+        sql: product_category
+        type: string
 
     measures:
       - name: count

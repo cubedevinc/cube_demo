@@ -1,0 +1,38 @@
+views:
+  - name: orders
+
+    cubes:
+      - join_path: base_orders
+        includes:
+          - status
+          - created_at
+          - count
+          - completed_count
+          - completed_percentage
+          - total
+      
+      - join_path: base_orders.line_items
+        includes:
+          - revenue
+
+      - join_path: base_orders.line_items.products
+        includes:
+          - product_category
+
+      - join_path: base_orders.users
+        prefix: true
+        includes:
+          - city
+          - age
+          - state
+
+    folders:
+      - name: Users
+        includes:
+          - users_city
+          - users_age
+          - users_state
+
+      - name: Products
+        includes:
+          - product_category

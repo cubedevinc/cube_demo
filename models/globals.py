@@ -1,20 +1,12 @@
+# Dynamic data models: https://cube.dev/docs/product/data-modeling/dynamic
+
 from cube import TemplateContext
-import os
- 
+
 template = TemplateContext()
 
-@template.function('get_scheduled_refresh')
-def get_scheduled_refresh():
-  name = 'CUSTOM_ENV_PREAGGS_ENABLE'
-  if name in os.environ:
-    return str(str(os.environ[name]).lower() == 'true').lower()
-  return 'false'
-
-@template.function('masked')
-def masked(sql, security_context):
-  trusted_teams = ['cx', 'exec' ]
-  is_trusted_team = security_context.setdefault('team') in trusted_teams
-  if is_trusted_team:
-    return sql
-  else:
-    return "\'--- masked ---\'"
+# Python functions can be registered so that they are callable from Jinja.
+# See '{{ is_accessible_by_team(...) }}' in `views/customers.yml'.
+# Learn more: https://cube.dev/docs/product/data-modeling/dynamic/jinja#python
+@template.function('is_accessible_by_team')
+def is_accessible_by_team(team: str, ctx: dict) -> bool:
+  return team == ctx['securityContext'].setdefault('team', 'default')

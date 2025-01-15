@@ -1,151 +1,69 @@
-from cube import config, file_repository
-import json
-import os
+# Configuration options: https://cube.dev/docs/product/configuration
 
-# config.base_path = '/cube-api'
+from cube import config
 
-config.schema_path = 'models'
-
-config.telemetry = False
-
-# Access Control
-
-# Fix query_rewrite compatibility with SQL push down
-
-# @config('query_rewrite')
-# def query_rewrite(query: dict, ctx: dict) -> dict:
-#   if 'user_id' in ctx['securityContext']:
-#     query['filters'].append({
-#       'member': 'orders_view.users_id',
-#       'operator': 'equals',
-#       'values': [ctx['securityContext']['user_id']]
-#     })
-#   return query
-
-# Dynamic Data Model
-
+# context_to_app_id maps security contexts of individual queries to compiled contexts.
+# Each compiled context would in turn produce a compiled data model.
+# Learn more: https://cube.dev/docs/reference/configuration/config#context_to_app_id
 @config('context_to_app_id')
-def context_mapping(ctx: dict):
-  return ctx['securityContext'].setdefault('team')
+def context_to_app_id(ctx: dict) -> str:
+  return ctx['securityContext'].setdefault('team', 'default')
 
-@config('check_sql_auth')
-def check_sql_auth(query: dict, username: str, password: str) -> dict:
-  security_context = {
-    'team': username
-  }
+# scheduled_refresh_contexts provides a list of well-known security contexts.
+# Thay can be mapped to compiled contexts and compiled data models ahead of time.
+# Learn more:  https://cube.dev/docs/reference/configuration/config#scheduled_refresh_contexts
+@config('scheduled_refresh_contexts')
+def scheduled_refresh_contexts() -> list[dict]:
+  return [
+    { 'securityContext': { 'team': 'default' } },
+    { 'securityContext': { 'team': 'marketing' } },
+    { 'securityContext': { 'team': 'product' } },
+    { 'securityContext': { 'team': 'sales' } }
+  ]
 
-  return {
-    'password': os.environ['CUBEJS_SQL_PASSWORD'],
-    'securityContext': security_context
-  }
+# query_rewrite provides a way to inspect, modify, and restrict queries at runtime.
+# Learn more: https://cube.dev/docs/reference/configuration/config#query_rewrite
+@config('query_rewrite')
+def query_rewrite(query: dict, ctx: dict) -> dict:
+  # print(query)
+  team = ctx['securityContext'].setdefault('team', 'default')
 
-# @config('driver_factory')
-# def driver_factory(ctx: dict) -> None:
-#   context = ctx['securityContext']
-#   data_source = ctx['dataSource']
- 
-#   if data_source == 'postgres':
-#     return {
-#       'type': 'postgres',
-#       'host': 'demo-db-examples.cube.dev',
-#       'user': 'cube',
-#       'password': '12345',
-#       'database': 'ecom'
-#     }
+  # Raising an exception would prevent a query from running
+  if team == 'product':
+    raise Exception('Product team is restricted from running queries. See cube.py for details.')
 
+  # Modifying a query is also possible.
+  # Learn more: https://cube.dev/docs/guides/recipes#access-control
+  if team == 'sales':
+    query['limit'] = 10
 
-# contextToOrchestratorId
-# canSwitchUser
+  # Add time dimension date range automatically if rolling window measures are used.
+  # It's not a best practice, just a matter of convenience in this demo deployment
+  def add_date_range_for_measures(measures: list[str], date_range: list[str]):
+    for measure in measures:
+      if not 'measures' in query:
+        query['measures'] = []
 
+      if not 'timeDimensions' in query:
+        query['timeDimensions'] = []
 
-# Custom check auth. TODO: not sure it is working
-#
-# @config('check_auth')
-# def check_auth(ctx: dict, token: str) -> None:
-#   if token == 'my_secret_token':
-#     ctx['securityContext'] = {}
-#     return 
+      if measure in query['measures'] and len(query['timeDimensions']) > 0:
+        for time_dimension in query['timeDimensions']:
+          if not 'dateRange' in time_dimension or time_dimension['dateRange'] == None:
+            time_dimension['dateRange'] = date_range
 
-#   raise Exception('Access denied')
+  add_date_range_for_measures([
+    'base_orders.total',
+    'base_orders.dau',
+    'base_orders.wau',
+    'base_orders.mau',
+    'orders.total',
+    'orders.dau',
+    'orders.wau',
+    'orders.mau'
+  ], [
+    '2019-01-01',
+    '2023-11-05'
+  ])
 
-@config('semantic_layer_sync')
-def sls(ctx: dict) -> list:
-   return [{
-      'type': 'preset',
-      'name': 'Preset Sync',
-      'config': {
-        'database': 'Cube Cloud: cube_demo',
-        'api_token': os.environ['PRESET_API_TOKEN'],
-        'api_secret': os.environ['PRESET_API_SECRET'],
-        'workspace_url': os.environ['PRESET_WORKSPACE_URL']
-      }
-    }, {
-      'type': "tableau",
-      'name': "Tableau Sync Demo",
-      'config': {
-        'database': "Cube Cloud: cube_demo",
-        'region': "us-west-2b",
-        'site': "cubedevdemo",
-        'personalAccessToken': "cube_demo",
-        'personalAccessTokenSecret': os.environ['TABLEAU_PAT_SECRET']
-      }
-    }, {
-      'type': "tableau",
-      'name': "Tableau Sync",
-      'config': {
-        'database': "Cube Cloud: cube_demo",
-        'region': "10ax",
-        'site': "tonycube",
-        'personalAccessToken': "tonycube",
-        'personalAccessTokenSecret': os.environ['TABLEAU_PAT_SECRET_TONY']
-      }
-    }, {
-      'type': "metabase",
-      'name': "Metabase Sync",
-      'config': {
-        'database': "Cube Cloud: cube_demo",
-        'user': os.environ['METABASE_SLS_USER'],
-        'password': os.environ['METABASE_SLS_PASSWORD'],
-        'url': os.environ['METABASE_SLS_URL']
-      }
-    }, 
-{
-  "type": "powerbi",
-  "name": "Powerbi Sync",
-  "config": {
-    "database": "Cube Cloud: cube_demo"
-  }
-}, 
-{
-  "type": "superset",
-  "name": "Apache Superset Sync",
-  "config": {
-    "database": "Cube Cloud: cube_demo",
-    "user": "admin",
-    "password": "MHV7gmd8kmr3dna_xuf",
-    "url": "cube-demo-superset.dev"
-  }
-}, 
-{
-  "type": "tableau-cloud",
-  "name": "Tableau Cloud Sync",
-  "config": {
-    "database": "Cube Cloud: cube_demo",
-    "region": "us-west-2b",
-    "site": "cubedev",
-    "personalAccessToken": os.environ['TABLEAU_PAT_NAME_CUBEDEV'],
-    "personalAccessTokenSecret": os.environ['TABLEAU_PAT_SECRET_CUBEDEV']
-  }
-}];
-
-@config('repository_factory')
-def repository_factory(ctx: dict) -> list[dict]:
-  return file_repository('models')
-
-@config('logger')
-def logger(message: str, params: dict) -> None:
-  print(f'MY CUSTOM LOGGER --> {message}: {params}')
-
-@config('context_to_api_scopes')
-def context_to_api_scopes(context: dict, default_scopes: list[str]) -> list[str]:
-  return ['meta', 'data', 'graphql']
+  return query
