@@ -1,6 +1,6 @@
 cubes:
   - name: users
-    sql_table: ECOM.USERS
+    sql_table: hive_metastore.default.users
     public: false
 
     dimensions:

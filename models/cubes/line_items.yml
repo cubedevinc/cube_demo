@@ -2,7 +2,7 @@
 
 cubes:
   - name: line_items
-    sql_table: ECOM.LINE_ITEMS
+    sql_table: hive_metastore.default.line_items
     public: false
 
     joins:
