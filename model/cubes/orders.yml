@@ -44,3 +44,7 @@ cubes:
         measures:
           - CUBE.count
           - CUBE.completed_count
+        time_dimension: CUBE.created_at
+        granularity: day
+        refresh_key:
+          every: 1 day
