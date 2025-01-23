@@ -28,3 +28,13 @@ views:
         includes: 
           - category
 
+    folders:
+      - name: Users
+        includes:
+          - users_city
+          - users_age
+          - users_state
+
+      - name: Products
+        includes:
+          - products_category
