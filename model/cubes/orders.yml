@@ -22,6 +22,10 @@ cubes:
         sql: "{CUBE}.COMPLETED_AT"
         type: time
 
+      - name: days_to_complete
+        sql: "DATEDIFF('day', created_at, completed_at)"
+        type: number
+
     measures:
       - name: count
         type: count
@@ -36,11 +40,16 @@ cubes:
         sql: "({completed_count} / NULLIF({count}, 0)) * 100.0"
         format: percent
 
+      - name: avg_days_to_complete
+        type: avg
+        sql: "{CUBE.days_to_complete}"
+
     pre_aggregations:
       - name: orders_by_status
         dimensions:
           - CUBE.status
           - products.category
+          - users.state
         measures:
           - CUBE.count
           - CUBE.completed_count
