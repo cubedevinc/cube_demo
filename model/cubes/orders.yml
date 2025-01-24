@@ -81,6 +81,7 @@ cubes:
       - name: orders_rollup
         dimensions:
           - status
+          - users.city
         measures:
           - count
           - completed_count
