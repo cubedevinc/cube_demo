@@ -1,0 +1,35 @@
+cubes:
+  - name: part
+    sql_table: SNOWFLAKE_SAMPLE_DATA.TPCH_SF100.PART
+
+    dimensions:
+      - name: id
+        sql: "{CUBE}.P_PARTKEY"
+        type: number
+        primary_key: true
+      
+      - name: part_name
+        sql: "{CUBE}.P_NAME"
+        type: string
+
+      - name: part_brand
+        sql: "{CUBE}.P_BRAND"
+        type: string
+
+      - name: part_type
+        sql: "{CUBE}.P_TYPE"
+        type: string
+
+    measures:
+      - name: count 
+        type: count
+
+    pre_aggregations:
+      - name: main
+        measures:
+          - part.count
+        dimensions:
+          - part.part_type
+          - part.part_brand
+        refresh_key:
+          every: 1 day

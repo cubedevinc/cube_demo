@@ -1,0 +1,56 @@
+cubes:
+  - name: order
+    sql_table: SNOWFLAKE_SAMPLE_DATA.TPCH_SF100."ORDERS"
+
+    joins:
+      - name: customer
+        relationship: many_to_one
+        sql: "{CUBE}.O_CUSTKEY = {customer.id}"
+
+    dimensions:
+      - name: id
+        sql: "{CUBE}.O_ORDERKEY"
+        type: number
+        primary_key: true
+      
+      - name: customer_key
+        sql: "{CUBE}.O_CUSTKEY"
+        type: number
+      
+      - name: order_priority
+        sql: "{CUBE}.O_ORDERPRIORITY"
+        type: string
+
+      - name: order_status
+        type: string
+        case:
+          when:
+            - sql: "{CUBE}.O_ORDERSTATUS = 'F'"
+              label: FILLED
+            - sql: "{CUBE}.O_ORDERSTATUS = 'O'"
+              label: ORDERED
+            - sql: "{CUBE}.O_ORDERSTATUS = 'P'"
+              label: PARTIAL
+          else:
+            label: UNKNOWN
+
+      - name: order_date
+        sql: "{CUBE}.O_ORDERDATE"
+        type: time
+
+        granularities:
+          - name: order_date_fiscal_year
+            interval: 1 year
+            offset: -3 months
+
+          - name: order_date_fiscal_quarter
+            interval: 1 quarter
+            offset: -3 months
+
+    measures:
+      - name: order_count
+        type: count
+
+      - name: total_price
+        type: sum
+        sql: "{CUBE}.O_TOTALPRICE"

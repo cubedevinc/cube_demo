@@ -1,0 +1,172 @@
+cubes:
+  - name: lineitem
+    sql_table: SNOWFLAKE_SAMPLE_DATA.TPCH_SF100.LINEITEM
+
+    joins:
+      - name: part_supplier
+        relationship: many_to_one
+        sql: >
+          {CUBE}.L_PARTKEY = {part_supplier.part_key}
+            AND {CUBE}.L_SUPPKEY = {part_supplier.supplier_key}
+
+      - name: order
+        relationship: many_to_one
+        sql: "{CUBE}.L_ORDERKEY = {order.id}"
+
+    dimensions:
+      - name: id
+        sql: "{CUBE}.L_LINENUMBER"
+        type: number
+        primary_key: true
+
+      - name: supplier_key
+        sql: "{CUBE}.L_SUPPKEY"
+        type: number
+
+      - name: part_key
+        sql: "{CUBE}.L_PARTKEY"
+        type: number
+
+      - name: ship_date
+        sql: "{CUBE}.L_SHIPDATE"
+        type: time
+        granularities:
+          - name: ship_date_fiscal_year
+            interval: 1 year
+            offset: -3 months
+
+          - name: ship_date_fiscal_quarter
+            interval: 1 quarter
+            offset: -3 months
+
+      - name: order_key
+        sql: "{CUBE}.L_ORDERKEY"
+        type: number
+
+      - name: return_flag
+        type: string
+        case:
+          when:
+            - sql: "{CUBE}.L_RETURNFLAG = 'R'"
+              label: RETURNED
+            - sql: "{CUBE}.L_RETURNFLAG = 'A'"
+              label: ACCEPTED
+            - sql: "{CUBE}.L_RETURNFLAG = 'N'"
+              label: NO RECEIPT
+          else:
+            label: UNKNOWN
+
+      - name: line_status
+        type: string
+        case:
+          when:
+            - sql: "{CUBE}.L_LINESTATUS = 'F'"
+              label: FILLED
+            - sql: "{CUBE}.L_RETURNFLAG = 'O'"
+              label: ORDERED
+          else:
+            label: UNKNOWN
+
+    measures:
+      - name: lineitem_count
+        type: count
+
+      - name: quantity
+        type: sum
+        sql: "{CUBE}.L_QUANTITY"
+
+      - name: base_price
+        type: sum
+        sql: "{CUBE}.L_EXTENDEDPRICE"
+        format: currency
+
+      - name: discounted_price
+        type: sum
+        sql: "{CUBE}.L_EXTENDEDPRICE * (1 - {CUBE}.L_DISCOUNT)"
+        format: currency
+
+      - name: charge
+        type: sum
+        sql: "{CUBE}.L_EXTENDEDPRICE * (1 - {CUBE}.L_DISCOUNT) * (1 + {CUBE}.L_TAX)"
+        format: currency
+
+      - name: revenue
+        type: sum
+        sql: "(CASE WHEN {CUBE}.L_RETURNFLAG IN ('A', 'N') THEN {CUBE}.L_EXTENDEDPRICE END) * (1 - {CUBE}.L_DISCOUNT)"
+        format: currency
+
+      - name: revenue_prior_year
+        multi_stage: true
+        sql: "{CUBE.revenue}"
+        type: number
+        format: currency
+        time_shift:
+          - time_dimension: revenue_margin.order_date
+            interval: 1 year
+            type: prior
+
+      - name: revenue_yoy_growth
+        multi_stage: true
+        sql: "{CUBE.revenue} / NULLIF({CUBE.revenue_prior_year}, 0)"
+        type: number
+
+      - name: gross_profit_margin
+        type: number
+        sql: "{CUBE.revenue} - {part_supplier.supply_cost}"
+        format: currency
+
+      - name: effective_tax_rate
+        type: number
+        sql: "({CUBE.charge} - {CUBE.revenue}) / NULLIF({CUBE.revenue}, 0) * 100"
+        format: percent
+
+      - name: effective_discount_rate
+        type: number
+        sql: "({CUBE.base_price} - {CUBE.discounted_price}) / NULLIF({CUBE.base_price}, 0) * 100"
+        format: percent
+
+      - name: avg_basket_size
+        type: number
+        sql: "{CUBE.quantity} / NULLIF({order.order_count}, 0)"
+
+    pre_aggregations:
+      - name: main
+        measures:
+          - lineitem.base_price
+          - lineitem.discounted_price
+          - lineitem.revenue
+          - lineitem.charge
+          - lineitem.lineitem_count
+          - part_supplier.supply_cost
+        dimensions:
+          - part_supplier.supplier.supplier_region
+          - part_supplier.supplier.supplier_nation
+          - part_supplier.part.part_brand
+          - order.customer.customer_region
+          - order.customer.customer_nation
+          - order.customer.customer_market_segment
+        timeDimension: order.order_date
+        granularity: day
+        partition_granularity: year
+        allow_non_strict_date_range_match: true
+        refresh_key:
+          every: 1 day
+          incremental: true
+        indexes:
+          - name: customer_index
+            columns:
+              - part_supplier.part.part_brand
+              - order.customer.customer_region
+              - order.customer.customer_nation
+              - order.customer.customer_market_segment
+              - "{'order__order_date_day'}"
+            type: aggregate
+          - name: supplier_index
+            columns:
+              - part_supplier.supplier.supplier_region
+              - part_supplier.supplier.supplier_nation
+              - "{'order__order_date_day'}"
+            type: aggregate
+          - name: part_brand_index
+            columns:
+              - part_supplier.part.part_brand

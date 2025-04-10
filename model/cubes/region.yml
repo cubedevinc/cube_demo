@@ -1,0 +1,26 @@
+cubes:
+  - name: region
+    sql_table: SNOWFLAKE_SAMPLE_DATA.TPCH_SF100.REGION
+
+    dimensions:
+      - name: id
+        sql: "{CUBE}.R_REGIONKEY"
+        type: number
+        primary_key: true
+      
+      - name: region_name
+        sql: "{CUBE}.R_NAME"
+        type: string
+
+    measures:
+      - name: count 
+        type: count
+
+    pre_aggregations:
+      - name: main
+        measures:
+          - region.count
+        dimensions:
+          - region.region_name
+        refresh_key:
+          every: 1 day

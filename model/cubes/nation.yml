@@ -1,0 +1,36 @@
+cubes:
+  - name: nation
+    sql_table: SNOWFLAKE_SAMPLE_DATA.TPCH_SF100.NATION
+
+    joins:
+      - name: region
+        relationship: many_to_one
+        sql: "{CUBE}.N_REGIONKEY = {region.id}"
+
+    dimensions:
+      - name: id
+        sql: "{CUBE}.N_NATIONKEY"
+        type: number
+        primary_key: true
+      
+      - name: nation_name
+        sql: "{CUBE}.N_NAME"
+        type: string
+
+      - name: region_name
+        sql: "{region.region_name}"
+        type: string
+
+    measures:
+      - name: count 
+        type: count
+
+    pre_aggregations:
+      - name: main
+        measures:
+          - nation.count
+        dimensions:
+          - nation.nation_name
+          - region.region_name
+        refresh_key:
+          every: 1 day

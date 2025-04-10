@@ -1,0 +1,34 @@
+cubes:
+  - name: part_supplier
+    sql_table: SNOWFLAKE_SAMPLE_DATA.TPCH_SF100.PARTSUPP
+
+    joins:
+      - name: part
+        relationship: many_to_one
+        sql: "{CUBE}.PS_PARTKEY = {part.id}"
+
+      - name: supplier
+        relationship: many_to_one
+        sql: "{CUBE}.PS_SUPPKEY = {supplier.id}"
+
+    dimensions:
+      - name: id
+        sql: "{CUBE}.PS_PARTKEY || '-' || {CUBE}.PS_SUPPKEY"
+        type: string
+        primary_key: true
+      
+      - name: part_key
+        sql: "{CUBE}.PS_PARTKEY"
+        type: number
+      
+      - name: supplier_key
+        sql: "{CUBE}.PS_SUPPKEY"
+        type: number
+
+    measures:
+      - name: count 
+        type: count
+
+      - name: supply_cost
+        sql: "{CUBE}.PS_SUPPLYCOST"
+        type: sum

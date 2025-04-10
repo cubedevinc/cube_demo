@@ -1,0 +1,90 @@
+views:
+  - name: revenue_margin
+    cubes:
+      - join_path: lineitem
+        includes:
+          - base_price
+          - discounted_price
+          - revenue
+          - revenue_prior_year
+          - revenue_yoy_growth
+          - charge
+          - gross_profit_margin
+          - effective_tax_rate
+          - effective_discount_rate
+          - avg_basket_size
+          - quantity
+          - ship_date
+          - lineitem_count
+
+      - join_path: lineitem.order
+        includes:
+          - order_count
+          - order_priority
+          - order_status
+          - order_date
+
+      - join_path: lineitem.order.customer
+        includes:
+          - customer_market_segment
+          - customer_nation
+          - customer_region
+          - customer_count
+
+      - join_path: lineitem.part_supplier.part
+        includes:
+          - part_name
+          - part_brand
+          - part_type
+
+      - join_path: lineitem.part_supplier.supplier
+        includes:
+          - supplier_name
+          - supplier_nation
+          - supplier_region
+
+    folders:
+      - name: Orders
+        includes:
+          - order_count
+          - order_priority
+          - order_status
+          - order_date
+      
+      - name: Customers
+        includes:
+          - customer_market_segment
+          - customer_nation
+          - customer_region
+          - customer_count
+
+      - name: Part
+        includes:
+          - part_name
+          - part_brand
+          - part_type
+
+      - name: Supplier
+        includes:
+          - supplier_name
+          - supplier_nation
+          - supplier_region
+
+      - name: LineItem
+        includes:
+          - ship_date
+          - lineitem_count
+          - quantity
+
+      - name: Metrics
+        includes:
+          - base_price
+          - discounted_price
+          - revenue
+          - revenue_prior_year
+          - revenue_yoy_growth
+          - charge
+          - gross_profit_margin
+          - effective_tax_rate
+          - effective_discount_rate
+          - avg_basket_size

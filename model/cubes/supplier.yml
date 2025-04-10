@@ -1,0 +1,49 @@
+cubes:
+  - name: supplier
+    sql_table: SNOWFLAKE_SAMPLE_DATA.TPCH_SF100.SUPPLIER
+
+    joins:
+      - name: nation
+        relationship: many_to_one
+        sql: "{CUBE}.S_NATIONKEY = {nation.id}"
+
+    dimensions:
+      - name: id
+        sql: "{CUBE}.S_SUPPKEY"
+        type: number
+        primary_key: true
+      
+      - name: supplier_name
+        sql: "{CUBE}.S_NAME"
+        type: string
+      
+      - name: supplier_nation_key
+        sql: "{CUBE}.S_NATIONKEY"
+        type: number
+      
+      - name: supplier_nation
+        sql: "{nation.nation_name}"
+        type: string
+      
+      - name: supplier_region
+        sql: "{nation.region_name}"
+        type: string
+
+    measures:
+      - name: count
+        type: count
+
+    # access_policy:
+    #   - role: admin
+
+    #   - role: region_manager
+    #     row_level:
+    #       filters:
+    #         - member: "{supplier_region}"
+    #           operator: equals
+    #           values: "{ [securityContext.regions] }"
+
+    #   - role: '*'
+    #     member_level:
+    #       excludes:
+    #         - *
